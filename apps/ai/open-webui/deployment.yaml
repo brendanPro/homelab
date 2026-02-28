@@ -24,6 +24,12 @@ spec:
               value: "http://ollama.ai.svc.cluster.local:11434"
             - name: WEBUI_SECRET_KEY
               value: "changeme"
+            - name: RAG_EMBEDDING_ENGINE
+              value: "ollama"
+            - name: RAG_EMBEDDING_MODEL
+              value: "nomic-embed-text"
+            - name: RAG_OLLAMA_BASE_URL
+              value: "http://ollama.ai.svc.cluster.local:11434"
           resources:
             requests:
               cpu: "100m"
@@ -37,14 +43,16 @@ spec:
             httpGet:
               path: /health
               port: 8080
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 5
           livenessProbe:
             httpGet:
               path: /health
               port: 8080
-            initialDelaySeconds: 30
+            initialDelaySeconds: 90
             periodSeconds: 30
+            failureThreshold: 5
       volumes:
         - name: data
           persistentVolumeClaim:
