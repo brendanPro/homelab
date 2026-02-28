@@ -4,3 +4,4 @@ sec.yaml
 charts
 *tobeignore*
 admin-secret.yaml
+*-secret.yaml

@@ -221,7 +221,27 @@ Sur RPI, les ressources sont limitées. Les `requests` et `limits` CPU/mémoire 
 
 ## Secrets et variables d'environnement
 
-Les secrets ne sont jamais commités. Ils sont créés manuellement sur le cluster :
+Les secrets ne sont jamais commités. Ils sont créés manuellement sur le cluster.
+Les fichiers `*.env` et `*-secret.yaml` (sauf `.example`) sont dans le `.gitignore`.
+
+### Repo ArgoCD (clé SSH deploy key GitHub)
+
+La clé deploy `~/.ssh/argocd_deploy_key` doit être ajoutée dans GitHub → Settings → Deploy keys (read-only).
+
+```bash
+kubectl create secret generic homelab-repo \
+  -n platform \
+  --from-literal=type=git \
+  --from-literal=url=git@github.com:brendanPro/homelab.git \
+  --from-file=sshPrivateKey=$HOME/.ssh/argocd_deploy_key \
+  --dry-run=client -o yaml | kubectl apply -f -
+
+kubectl label secret homelab-repo -n platform argocd.argoproj.io/secret-type=repository
+```
+
+Voir le template : `platform/argocd/base/repo-secret.yaml.example`
+
+### Autres secrets
 
 ```bash
 # Exemple : secret admin Gitea
@@ -230,10 +250,7 @@ kubectl create secret generic gitea-admin-secret \
   --from-literal=password='ton-mot-de-passe'
 ```
 
-Les fichiers `*.env` et `admin-secret.yaml` sont dans le `.gitignore`.
-
 Les variables sensibles référencées dans les déploiements :
-- `gitea/staefulset.yaml` → `GITEA_ADMIN_PASSWORD` via `secretKeyRef: gitea-admin-secret`
 - `frigate/config.yaml` → `{FRIGATE_RTSP_USER}` et `{FRIGATE_RTSP_PASSWORD}` via variables d'env
 
 ---
