@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ai-namespace
+  namespace: platform
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:brendanPro/homelab.git
+    targetRevision: main
+    path: apps/ai/namespace
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ai
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
