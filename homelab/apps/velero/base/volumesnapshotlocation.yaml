@@ -1,0 +1,13 @@
+apiVersion: velero.io/v1
+kind: VolumeSnapshotLocation
+metadata:
+  name: default
+  namespace: velero
+  labels:
+    app.kubernetes.io/name: velero
+spec:
+  provider: csi
+  config:
+    # For Rook-Ceph CSI snapshots
+    # Ensure VolumeSnapshotClass is created for rook-ceph.rbd.csi.ceph.com
+

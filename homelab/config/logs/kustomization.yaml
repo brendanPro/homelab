@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kube-system
+
+commonLabels:
+  app.kubernetes.io/name: log-management
+  app.kubernetes.io/component: logging
+
+resources:
+  - namespace.yaml
+  - logrotate-configmap.yaml
+  - logrotate-daemonset.yaml
+  - log-cleanup-cronjob.yaml
+  - container-log-policy.yaml
+  - resource-quotas.yaml

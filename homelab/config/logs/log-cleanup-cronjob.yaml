@@ -1,0 +1,122 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: log-cleanup
+  namespace: kube-system
+spec:
+  schedule: "0 2 * * *"  # Run daily at 2 AM
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: log-cleanup
+        spec:
+          hostNetwork: true
+          hostPID: true
+          tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+            effect: NoSchedule
+          - key: node.kubernetes.io/disk-pressure
+            operator: Exists
+            effect: NoSchedule
+          restartPolicy: OnFailure
+          containers:
+          - name: log-cleanup
+            image: alpine:3.18
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Starting comprehensive log cleanup on node: $NODE_NAME"
+              
+              # Function to log with timestamp
+              log() {
+                echo "$(date '+%Y-%m-%d %H:%M:%S') [log-cleanup]: $1"
+              }
+              
+              # Clean up old container logs (older than 7 days)
+              log "Cleaning container logs older than 7 days..."
+              find /host/var/log/pods -name "*.log" -type f -mtime +7 -delete 2>/dev/null || true
+              find /host/var/log/containers -name "*.log" -type f -mtime +7 -delete 2>/dev/null || true
+              
+              # Clean up compressed log files older than 14 days
+              log "Cleaning compressed logs older than 14 days..."
+              find /host/var/log -name "*.gz" -type f -mtime +14 -delete 2>/dev/null || true
+              
+              # Clean up core dumps older than 3 days
+              log "Cleaning core dumps older than 3 days..."
+              find /host/var/lib -name "core.*" -type f -mtime +3 -delete 2>/dev/null || true
+              
+              # Clean up temporary files in /tmp older than 1 day
+              log "Cleaning temporary files older than 1 day..."
+              find /host/tmp -type f -mtime +1 -delete 2>/dev/null || true
+              
+              # Clean up old journal files
+              log "Vacuuming systemd journal logs..."
+              chroot /host journalctl --vacuum-time=7d --vacuum-size=500M 2>/dev/null || true
+              
+              # Clean up containerd/docker artifacts
+              log "Cleaning container runtime artifacts..."
+              # Remove old containerd snapshots (if any)
+              find /host/var/lib/containerd -name "*.tmp" -type f -mtime +1 -delete 2>/dev/null || true
+              
+              # Clean up Kubernetes logs
+              log "Cleaning Kubernetes component logs..."
+              find /host/var/log -name "kube-*.log.*" -type f -mtime +7 -delete 2>/dev/null || true
+              find /host/var/log -name "kubelet.log.*" -type f -mtime +7 -delete 2>/dev/null || true
+              
+              # Report disk usage after cleanup
+              log "Disk usage after cleanup:"
+              df -h /host/var/log /host/var/lib /host/tmp 2>/dev/null || true
+              
+              # Check for large files that might need attention
+              log "Large files (>100MB) in log directories:"
+              find /host/var/log -type f -size +100M -exec ls -lh {} \; 2>/dev/null || true
+              
+              log "Log cleanup completed successfully"
+            resources:
+              requests:
+                memory: "32Mi"
+                cpu: "25m"
+              limits:
+                memory: "64Mi"
+                cpu: "50m"
+            securityContext:
+              privileged: true
+              runAsUser: 0
+            volumeMounts:
+            - name: host-var-log
+              mountPath: /host/var/log
+            - name: host-var-lib
+              mountPath: /host/var/lib
+            - name: host-tmp
+              mountPath: /host/tmp
+            - name: host-root
+              mountPath: /host
+            env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumes:
+          - name: host-var-log
+            hostPath:
+              path: /var/log
+              type: Directory
+          - name: host-var-lib
+            hostPath:
+              path: /var/lib
+              type: Directory
+          - name: host-tmp
+            hostPath:
+              path: /tmp
+              type: Directory
+          - name: host-root
+            hostPath:
+              path: /
+              type: Directory

@@ -1,0 +1,13 @@
+namespace: gitea
+commonLabels:
+  app.kubernetes.io/name: gitea
+  app.kubernetes.io/version: 1.12.3
+resources:
+- ./ns.yaml
+
+helmCharts:
+- name: gitea
+  repo: https://dl.gitea.com/charts/
+  releaseName: gitea-charts
+  namespace: gitea
+  version: 1.4.1

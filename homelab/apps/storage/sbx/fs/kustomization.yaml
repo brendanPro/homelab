@@ -1,0 +1,4 @@
+resources:
+- ./resources/fs.yaml
+- ./resources/storageclass.yaml
+- ./resources/registry.yaml

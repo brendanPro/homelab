@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: ADMIN_TOKEN
+              name: vaultwarden-secret
+        envFrom:
+        - configMapRef:
+            name: vaultwarden-config
+        image: docker.io/vaultwarden/server:latest 
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /alive
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: vaultwarden
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /alive
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        volumeMounts:
+          - name: vaultwarden-data
+            mountPath: /data
+      restartPolicy: Always
+      volumes:
+        - name: vaultwarden-data
+          persistentVolumeClaim:
+            claimName: vaultwarden-pvc
+

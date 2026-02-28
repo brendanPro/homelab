@@ -1,0 +1,12 @@
+namespace: radarr
+commonLabels:
+  app.kubernetes.io/name: radarr
+commonAnnotations:
+  app.kubernetes.io/name: radarr
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- pvc.yaml
+- storageclass.yaml

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-server
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: minecraft-server
+        image: itzg/minecraft-server:java21
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            memory: 1.5Gi
+        env:
+          - name:  EULA
+            value: 'TRUE'
+          - name: MODE
+            value: 'survival'
+          - name: MOTD
+            value:  'Your super-cool, super-kube, minecraft server'
+          - name: ALLOW_FLIGHT
+            value: 'TRUE'
+          - name: VERSION
+            value: '1.21.3'
+        ports:
+          - name: minecraft
+            containerPort: 25565
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: minecraft-pvc

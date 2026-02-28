@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: factorio
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - name: factorio-container
+          image: factoriotools/factorio:2.0.21
+          env:
+            - name: UPDATE_MODS_ON_START
+              value: "true"
+            - name: INSTANCE_NAME
+              value: Factorio
+            - name: INSTANCE_DESC
+              value: Factorio with friends
+            - name: SAVE_NAME
+              value: "Billy's world"
+            - name: GENERATE_NEW_SAVE
+              value: "true"
+            - name: LOAD_LATEST_SAVE
+              value: "true"
+            - name: CONFIG
+              value: /factorio/config
+            - name: DLC_SPACE_AGE
+              value: "true"
+            # - name: SAVE_NAME
+            #   value: v2billy
+          ports:
+            - containerPort: 34197
+              protocol: UDP
+            - containerPort: 27015
+              protocol: TCP
+          volumeMounts:
+            - mountPath: "/factorio"
+              name: factorio-storage
+          envFrom: 
+            - secretRef:
+                name: factorio-secret
+      volumes:
+        - name: factorio-storage
+          persistentVolumeClaim:
+            claimName: factorio-storage

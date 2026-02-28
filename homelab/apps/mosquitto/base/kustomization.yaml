@@ -1,0 +1,14 @@
+namespace: mosquitto
+commonLabels:
+  app.kubernetes.io/name: mosquitto
+commonAnnotations:
+  app.kubernetes.io/name: mosquitto
+
+
+resources:
+- ./resources/ns.yaml
+- ./resources/depoly.yaml
+- ./resources/svc.yaml
+- ./resources/pvc.yaml
+- ./resources/storageclass.yaml
+- ./resources/cm.yaml

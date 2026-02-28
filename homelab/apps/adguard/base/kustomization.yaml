@@ -1,0 +1,13 @@
+namespace: adguard
+commonLabels:
+  app.kubernetes.io/name: adguard
+commonAnnotations:
+  app.kubernetes.io/name: adguard
+
+resources:
+- ./ns.yaml
+- ./deploy.yaml
+- ./svc.yaml
+- ./pvc.yaml
+- ./storageclass.yaml
+

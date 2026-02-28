@@ -1,0 +1,14 @@
+namespace: velero
+commonLabels:
+  app.kubernetes.io/name: velero
+commonAnnotations:
+  app.kubernetes.io/name: velero
+
+resources:
+- ./ns.yaml
+- ./sa.yaml
+- ./clusterrolebinding.yaml
+- ./deploy.yaml
+- ./backupstoragelocation.yaml
+- ./volumesnapshotlocation.yaml
+

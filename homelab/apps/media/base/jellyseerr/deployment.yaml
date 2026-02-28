@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyseerr
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: jellyseerr
+        image: docker.io/fallenbagel/jellyseerr:2.0.0
+        ports:
+        - containerPort: 5055
+        volumeMounts:
+        - mountPath: /app/config
+          name: config
+        env:
+        - name: 'PORT'
+          value: '5055'
+        - name: 'LOG_LEVEL'
+          value: 'info'
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: jellyseerr-config

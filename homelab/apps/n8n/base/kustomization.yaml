@@ -1,0 +1,14 @@
+namespace: n8n
+commonLabels:
+  app.kubernetes.io/name: n8n
+commonAnnotations:
+  app.kubernetes.io/name: n8n
+
+resources:
+- ns.yaml
+- deploy.yaml
+- svc.yaml
+- ing.yaml
+- pvc.yaml
+- storageclass.yaml
+- secret.yaml

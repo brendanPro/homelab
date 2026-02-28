@@ -1,0 +1,8 @@
+helmCharts:
+  - name: adguard-home
+    repo: https://k8s-at-home.com/charts/
+    valuesInline:
+      image:
+        repository: k8s-at-home/adguard-home
+        tag: latest
+    releaseName: adguard-home

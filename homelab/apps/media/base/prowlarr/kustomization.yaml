@@ -1,0 +1,12 @@
+namespace: prowlarr
+commonLabels:
+  app.kubernetes.io/name: prowlarr
+commonAnnotations:
+  app.kubernetes.io/name: prowlarr
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- pvc.yaml
+- storageclass.yaml

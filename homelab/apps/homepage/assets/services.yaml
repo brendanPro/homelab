@@ -1,0 +1,85 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+- Home management:
+    - Home assistant:
+        href: "https://homeassistant.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/home-assistant.svg
+        description: Server de centralisation domotique
+        namespace: homeassistant
+        app: homeassistant
+        showStats: true
+    - Vaultwarden:
+        href: "https://newvaultwarden.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/vaultwarden.svg
+        description: Coffre fort de mot de passe
+        namespace: vaultwarden
+        app: vaultwarden
+        showStats: true
+    - Ceph cluster:
+        href: "https://storage.wombat-wahoo.ts.net/"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/ceph.svg
+        description: Stockage avec replication
+        namespace: rook-ceph
+    - Frigate:
+        href: "https://frigate.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/frigate.svg
+        descritpion: Solution de nvr opensource
+        namespace: frigate
+        showStats: true
+        widget:
+            type: frigate
+            url: http://frigate.frigate:5000
+            enableRecentEvents: true
+    - Zigbee:
+        href: "https://zigbee2mqtt.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/zigbee2mqtt.svg
+        descritpion: Zigbee2MQTT permet de connecter des appareils Zigbee pour les contrôler via homeassistant
+        namespace: zigbee2mqtt
+        app: zigbee2mqtt
+        showStats: true
+
+- Media management:
+    - Jellyfin:
+        href: "https://jellyfin.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/jellyfin.svg
+        namespace: medias
+        app: jellyfin
+        showStats: true
+    - Jellyseerr:
+        href: "https://jellyseerr.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/jellyseerr.svg
+        namespace: medias
+        app: jellyseerr
+        showStats: true
+    - Sonarr:
+        href: "https://sonarr.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/sonarr.svg
+        namespace: medias
+        app: sonarr
+        showStats: true
+    - Radarr:
+        href: "https://radarr.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/radarr.svg
+        namespace: medias
+        app: radarr
+        showStats: true
+    - Prowlarr:
+        href: "https://prowlarr.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/prowlarr.svg
+        namespace: medias
+        app: prowlarr
+        showStats: true
+    - Qbittorrent:
+        href: "https://qbittorrent.wombat-wahoo.ts.net"
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/qbittorrent.svg
+        namespace: medias
+        app: qbittorrent 
+        showStats: true
+# - Test:
+#     - Nginx app test:
+#         href: "https://nginx-ts-test.wombat-wahoo.ts.net"
+#         description: Yet an other test
+#         namespace: tsnginx
+#         app: tailscale-nginx
+#         showStats: true

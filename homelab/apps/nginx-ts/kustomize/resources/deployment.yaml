@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-ts
+spec:
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    spec:
+      containers:
+      - name: nginx-tailscale
+        image: registry.hub.docker.com/clarkezone/tsgunicorn:latest
+        ports:
+        - containerPort: 8000

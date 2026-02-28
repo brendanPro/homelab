@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frigate
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - env: null
+        envFrom: 
+        - secretRef:
+            name: creds
+        image: ghcr.io/blakeblackshear/frigate:0.14.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        name: frigate
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+        - containerPort: 8971
+          name: http-auth
+          protocol: TCP
+        - containerPort: 1935
+          name: rtmp
+          protocol: TCP
+        - containerPort: 8554
+          name: rtsp
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        resources: {}
+        securityContext: {}
+        lifecycle:
+          postStart:
+            exec:
+              command: ["cp", "/config/default/config.yaml", "/config/config.yaml"]
+        volumeMounts:
+        - name: configmap 
+          mountPath: /config/default
+        - name: config
+          mountPath: /config
+        - name: data
+          mountPath: /data
+        - name: media
+          mountPath: /media
+        - name: dshm
+          mountPath: /dev/shm
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: configmap 
+        configMap:
+          name: config
+      - name: config
+        persistentVolumeClaim:
+            claimName: frigate-config
+      - name: data
+        emptyDir: {}
+      - name: media
+        persistentVolumeClaim:
+            claimName: frigate-storage
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 1Gi        
+      - name: tmp
+        emptyDir:
+          medium: Memory
+          sizeLimit: 1Gi
+        

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frigate
+spec:
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 5000
+    protocol: TCP
+    targetPort: http
+  - name: http-auth
+    port: 8971
+    protocol: TCP
+    targetPort: http-auth
+  - name: rtmp
+    port: 1935
+    protocol: TCP
+    targetPort: rtmp
+  - name: rtsp
+    port: 8554
+    protocol: TCP
+    targetPort: rtsp
+  type: ClusterIP

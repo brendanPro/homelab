@@ -1,0 +1,27 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: critical-apps-backup
+  namespace: velero
+  labels:
+    app.kubernetes.io/name: velero
+spec:
+  # Every 6 hours
+  schedule: "0 */6 * * *"
+  template:
+    # Backup critical applications only
+    includedNamespaces:
+    - homeassistant
+    - vaultwarden
+    - gitea
+    # Include persistent volumes
+    defaultVolumesToFsBackup: true
+    # Snapshot PVs using CSI
+    snapshotVolumes: true
+    # Retention: keep backups for 7 days
+    ttl: 168h0m0s
+    # Add labels to identify this backup
+    labels:
+      backup-type: critical
+      schedule: frequent
+

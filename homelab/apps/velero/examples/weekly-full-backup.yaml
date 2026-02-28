@@ -1,0 +1,27 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: weekly-full-backup
+  namespace: velero
+  labels:
+    app.kubernetes.io/name: velero
+spec:
+  # Weekly on Sunday at 3 AM
+  schedule: "0 3 * * 0"
+  template:
+    # Backup everything
+    includedNamespaces:
+    - '*'
+    # Include cluster-scoped resources
+    includeClusterResources: true
+    # Include persistent volumes
+    defaultVolumesToFsBackup: true
+    # Snapshot PVs using CSI
+    snapshotVolumes: true
+    # Retention: keep backups for 90 days
+    ttl: 2160h0m0s
+    # Add labels to identify this backup
+    labels:
+      backup-type: full
+      schedule: weekly
+

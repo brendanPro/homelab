@@ -1,0 +1,11 @@
+namespace: medias
+resources:
+- ./prowlarr
+- ./sonarr
+- ./radarr
+- ./qbittorrent
+- ./jellyfin
+- ./jellyseerr
+- pvc.yaml
+- storageclass.yaml
+- ns.yaml

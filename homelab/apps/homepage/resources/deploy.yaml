@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage
+spec:
+  replicas: 1
+  template:
+    spec:
+      serviceAccountName: homepage
+      automountServiceAccountToken: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+      - name: homepage
+        image: ghcr.io/gethomepage/homepage:latest
+        env:
+        - name: HOMEPAGE_ALLOWED_HOSTS
+          value: homepage.wombat-wahoo.ts.net
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: homepage-config
+          mountPath: /app/config
+        - name: homepage-logs
+          mountPath: /app/config/logs
+      volumes:
+      - name: homepage-config
+        configMap:
+          name: homepage-assets
+          items:
+          - key: bookmarks.yaml
+            path: bookmarks.yaml
+          - key: services.yaml
+            path: services.yaml
+          - key: settings.yaml
+            path: settings.yaml
+          - key: widgets.yaml
+            path: widgets.yaml
+          - key: docker.yaml
+            path: docker.yaml
+          - key: kubernetes.yaml
+            path: kubernetes.yaml
+          - key: custom.css
+            path: custom.css
+          - key: custom.js
+            path: custom.js
+          - key: proxmox.yaml
+            path: proxmox.yaml
+      - name: homepage-logs
+        emptyDir: {}
+

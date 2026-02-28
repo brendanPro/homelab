@@ -1,0 +1,8 @@
+namespace: openebs
+commonLabels:
+  app.kubernetes.io/name: openebs
+
+resources:
+- ./ns.yaml
+- ./storageclass.yaml
+

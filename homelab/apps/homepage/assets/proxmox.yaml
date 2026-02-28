@@ -1,0 +1,11 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/service-widgets
+
+# Proxmox configuration - add your Proxmox servers here if needed
+# Example:
+# - resource: proxmox
+#   url: https://your-proxmox-server:8006
+#   username: your-username@pam
+#   password: your-password
+#   node: your-node-name

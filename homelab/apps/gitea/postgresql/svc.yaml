@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgresql
+    chart: postgresql-8.6.4
+    heritage: Helm
+    release: gitea-charts
+  name: gitea-charts-postgresql
+  namespace: gitea
+spec:
+  ports:
+  - name: tcp-postgresql
+    port: 5432
+    targetPort: tcp-postgresql
+  selector:
+    app: postgresql
+    release: gitea-charts
+    role: master
+  type: ClusterIP

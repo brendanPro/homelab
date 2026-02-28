@@ -1,0 +1,14 @@
+namespace: homeassistant
+commonLabels:
+  app.kubernetes.io/name: homeassistant
+commonAnnotations:
+  app.kubernetes.io/name: homeassistant
+
+resources:
+- ./resources/ns.yaml
+- ./resources/deploy.yaml
+- ./resources/svc.yaml
+- ./resources/ing.yaml
+- ./resources/pvc.yaml
+- ./resources/storageclass.yaml
+

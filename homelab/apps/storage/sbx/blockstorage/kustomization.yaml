@@ -1,0 +1,4 @@
+resources:
+- ./resources/storageclass.yaml
+- ./resources/mysql.yaml
+- ./resources/wordpress.yaml

@@ -1,0 +1,20 @@
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  name: default
+  namespace: velero
+  labels:
+    app.kubernetes.io/name: velero
+spec:
+  provider: aws
+  objectStorage:
+    bucket: velero-backups
+    prefix: homelab
+  config:
+    region: minio
+    s3ForcePathStyle: "true"
+    s3Url: http://192.168.8.26:9000
+  credential:
+    name: cloud-credentials
+    key: cloud
+

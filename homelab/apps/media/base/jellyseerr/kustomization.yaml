@@ -1,0 +1,12 @@
+namespace: jellyseerr
+commonLabels:
+  app.kubernetes.io/name: jellyseerr
+commonAnnotations:
+  app.kubernetes.io/name: jellyseerr
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- storageclass.yaml
+- pvc.yaml

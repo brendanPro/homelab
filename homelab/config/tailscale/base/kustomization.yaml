@@ -1,0 +1,27 @@
+# kind: Kustomization
+
+# namespace: tailscale
+# resources:
+# - https://raw.githubusercontent.com/tailscale/tailscale/v1.74.0/cmd/k8s-operator/deploy/manifests/operator.yaml
+
+# patches:
+#   - path: delete-secret.yaml
+
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: tailscale
+
+helmCharts:
+  - name: tailscale-operator
+    repo: https://pkgs.tailscale.com/helmcharts
+    includeCRDs: true
+    valuesInline:
+      operatorConfig:
+        hostname: "tailscale-operator"
+        logging: "info"
+    releaseName: tailscale-operator
+    # Tailscale Releases: https://github.com/tailscale/tailscale/releases
+    # Helm Chart Releases: https://pkgs.tailscale.com/helmcharts/index.yaml
+    version: 1.74.1

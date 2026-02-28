@@ -1,0 +1,12 @@
+namespace: sonarr
+commonLabels:
+  app.kubernetes.io/name: sonarr
+commonAnnotations:
+  app.kubernetes.io/name: sonarr
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- pvc.yaml
+- storageclass.yaml

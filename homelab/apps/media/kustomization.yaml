@@ -1,0 +1,6 @@
+resources:
+- ./base
+- mediafs.yaml
+- downloadfs.yaml
+- blockpools.yaml
+

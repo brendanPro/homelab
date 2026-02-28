@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-monitoring-dashboard
+  namespace: log-management
+  labels:
+    grafana_dashboard: "1"
+data:
+  log-management-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "Kubernetes Log Management",
+        "tags": ["kubernetes", "logs", "monitoring"],
+        "style": "dark",
+        "timezone": "browser",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Disk Usage by Node",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "100 - (node_filesystem_avail_bytes{mountpoint=\"/\"} / node_filesystem_size_bytes{mountpoint=\"/\"} * 100)",
+                "legendFormat": "{{instance}}"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "unit": "percent",
+                "thresholds": {
+                  "steps": [
+                    {"color": "green", "value": null},
+                    {"color": "yellow", "value": 70},
+                    {"color": "red", "value": 85}
+                  ]
+                }
+              }
+            },
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+          },
+          {
+            "id": 2,
+            "title": "Log Volume Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(container_fs_writes_bytes_total{device=\"/dev/nvme0n1p2\"}[5m])",
+                "legendFormat": "{{instance}}"
+              }
+            ],
+            "yAxes": [
+              {
+                "unit": "binBps",
+                "label": "Bytes/sec"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+          },
+          {
+            "id": 3,
+            "title": "Container Log Files Count",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "count by (instance) (container_fs_inodes_total{device=\"/dev/nvme0n1p2\"})",
+                "legendFormat": "{{instance}}"
+              }
+            ],
+            "gridPos": {"h": 6, "w": 8, "x": 0, "y": 8}
+          },
+          {
+            "id": 4,
+            "title": "Journal Log Size",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "node_filesystem_size_bytes{mountpoint=\"/var/log\"} - node_filesystem_avail_bytes{mountpoint=\"/var/log\"}",
+                "legendFormat": "{{instance}}"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "unit": "bytes"
+              }
+            },
+            "gridPos": {"h": 6, "w": 8, "x": 8, "y": 8}
+          },
+          {
+            "id": 5,
+            "title": "Log Cleanup Job Status",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "kube_job_status_succeeded{job_name=~\"log-cleanup.*\"}",
+                "legendFormat": "Success"
+              },
+              {
+                "expr": "kube_job_status_failed{job_name=~\"log-cleanup.*\"}",
+                "legendFormat": "Failed"
+              }
+            ],
+            "gridPos": {"h": 6, "w": 8, "x": 16, "y": 8}
+          },
+          {
+            "id": 6,
+            "title": "LogRotate Process Status",
+            "type": "table",
+            "targets": [
+              {
+                "expr": "up{job=\"kube-system/logrotate\"}",
+                "format": "table",
+                "instant": true
+              }
+            ],
+            "gridPos": {"h": 8, "w": 24, "x": 0, "y": 14}
+          }
+        ],
+        "time": {
+          "from": "now-1h",
+          "to": "now"
+        },
+        "refresh": "30s"
+      }
+    }

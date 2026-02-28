@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logrotate-config
+  namespace: kube-system
+data:
+  logrotate.conf: |
+    # Global logrotate configuration for Kubernetes cluster
+    
+    # Rotate logs daily
+    daily
+    
+    # Keep 7 days of logs
+    rotate 7
+    
+    # Create new log files with specified permissions
+    create 644 root root
+    
+    # Compress rotated logs (except current)
+    compress
+    delaycompress
+    
+    # Don't rotate empty logs
+    notifempty
+    
+    # Don't fail if log file is missing
+    missingok
+    
+    # Use date as suffix
+    dateext
+    dateformat -%Y%m%d-%s
+    
+    # Container logs
+    /var/log/pods/*/*.log {
+        daily
+        rotate 3
+        compress
+        delaycompress
+        missingok
+        notifempty
+        create 644 root root
+        maxsize 100M
+        postrotate
+            # Signal containerd to reopen log files
+            /usr/bin/killall -USR1 containerd 2>/dev/null || true
+        endscript
+    }
+    
+    # Kubelet logs
+    /var/log/kubelet.log {
+        daily
+        rotate 7
+        compress
+        delaycompress
+        missingok
+        notifempty
+        create 644 root root
+        maxsize 50M
+        copytruncate
+    }
+    
+    # Kubernetes audit logs
+    /var/log/audit.log {
+        daily
+        rotate 14
+        compress
+        delaycompress
+        missingok
+        notifempty
+        create 600 root root
+        maxsize 100M
+        copytruncate
+    }
+    
+    # System journal logs (handled separately by journalctl)
+    # But we can clean old archived journals
+    /var/log/journal/*/*.journal~ {
+        daily
+        rotate 7
+        compress
+        delaycompress
+        missingok
+        notifempty
+        maxage 7
+    }
+    
+    # Docker/Containerd logs
+    /var/log/containers/*.log {
+        daily
+        rotate 5
+        compress
+        delaycompress
+        missingok
+        notifempty
+        create 644 root root
+        maxsize 50M
+        copytruncate
+    }
+    
+    # Application specific logs
+    /var/log/apps/*/*.log {
+        daily
+        rotate 7
+        compress
+        delaycompress
+        missingok
+        notifempty
+        create 644 root root
+        maxsize 25M
+        copytruncate
+    }

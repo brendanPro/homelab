@@ -1,0 +1,28 @@
+namespace: homepage
+commonLabels:
+  app.kubernetes.io/name: homepage
+commonAnnotations:
+  app.kubernetes.io/name: homepage
+
+configMapGenerator:
+- name: homepage-assets
+  files:
+    - ./assets/bookmarks.yaml
+    - ./assets/services.yaml
+    - ./assets/settings.yaml
+    - ./assets/widgets.yaml
+    - ./assets/docker.yaml
+    - ./assets/kubernetes.yaml
+    - ./assets/custom.css
+    - ./assets/custom.js
+    - ./assets/proxmox.yaml
+
+resources:
+- ./resources/ns.yaml
+- ./resources/deploy.yaml
+- ./resources/svc.yaml
+- ./resources/ing.yaml
+- ./resources/sa.yaml
+- ./resources/sec.yaml
+- ./resources/cr.yaml
+- ./resources/crb.yaml

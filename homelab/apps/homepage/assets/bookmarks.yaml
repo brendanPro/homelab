@@ -1,0 +1,22 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/bookmarks
+#
+- VPN:
+    - Tailscale:
+        - href: https://login.tailscale.com/admin/machines
+          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/93ab09fc0a7a0134a9274af73a572843c480163a/svg/tailscale.svg
+- Source:
+  - GitHub:
+    - href: https://github.com/brendiche/iac
+      icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/dd34fba44b97d3d5753dda032487890cb6fa5879/svg/github.svg
+#
+# - Social:
+#     - Reddit:
+#         - abbr: RE
+#           href: https://reddit.com/
+#
+# - Entertainment:
+#     - YouTube:
+#         - abbr: YT
+#           href: https://youtube.com/

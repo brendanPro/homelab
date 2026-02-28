@@ -1,0 +1,23 @@
+namespace: vaultwarden
+commonLabels:
+  app.kubernetes.io/name: vaultwarden
+commonAnnotations:
+  app.kubernetes.io/name: vaultwarden
+
+configMapGenerator:
+- name: vaultwarden-config
+  envs:
+  - .env.config
+
+secretGenerator:
+- name: vaultwarden-secret
+  envs:
+  - .env.secret
+
+resources:
+- ns.yaml
+- deploy.yaml
+- ing.yaml
+- pvc.yaml
+- sc.yaml
+- svc.yaml

@@ -1,0 +1,26 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: daily-backup
+  namespace: velero
+  labels:
+    app.kubernetes.io/name: velero
+spec:
+  # Daily at 2 AM
+  schedule: "0 2 * * *"
+  template:
+    # Include all namespaces except velero itself
+    includedNamespaces:
+    - '*'
+    excludedNamespaces:
+    - velero
+    - kube-system
+    - kube-public
+    - kube-node-lease
+    # Include persistent volumes
+    defaultVolumesToFsBackup: true
+    # Snapshot PVs using CSI
+    snapshotVolumes: true
+    # Retention: keep backups for 30 days
+    ttl: 720h0m0s
+

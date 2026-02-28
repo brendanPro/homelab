@@ -1,0 +1,18 @@
+namespace: zigbee2mqtt
+commonLabels:
+  app.kubernetes.io/name: zigbee2mqtt
+commonAnnotations:
+  app.kubernetes.io/name: zigbee2mqtt
+
+configMapGenerator:
+- name: zigbee2mqtt-config
+  files:
+    - ./assets/configuration.yaml
+
+resources:
+- ./resources/ns.yaml
+- ./resources/deploy.yaml
+- ./resources/svc.yaml
+- ./resources/ing.yaml
+- ./resources/storageclass.yaml
+- ./resources/pvc.yaml

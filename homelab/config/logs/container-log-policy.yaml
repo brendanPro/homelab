@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: container-log-policy
+  namespace: kube-system
+data:
+  # Kubelet configuration for container log management
+  kubelet-log-config.yaml: |
+    # Container log rotation settings
+    containerLogMaxSize: "50Mi"
+    containerLogMaxFiles: 5
+    
+    # System log settings
+    logging:
+      format: json
+      verbosity: 2
+      
+    # Log rotation for kubelet itself
+    logRotation:
+      maxSize: "100Mi"
+      maxAge: "7d"
+      maxBackups: 5
+      
+  # Containerd log configuration
+  containerd-log-config.toml: |
+    # Containerd logging configuration
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+      # Log driver configuration
+      log-driver = "json-file"
+      log-opts = {
+        "max-size" = "50m"
+        "max-file" = "3"
+      }
+      
+    [plugins."io.containerd.grpc.v1.cri"]
+      # Container log settings
+      max_container_log_line_size = 16384
+      
+  # Application log policy template
+  app-log-policy.yaml: |
+    # Template for application logging configuration
+    # Add this to your application deployments
+    
+    # Example deployment with proper log configuration:
+    # spec:
+    #   template:
+    #     spec:
+    #       containers:
+    #       - name: app
+    #         image: myapp:latest
+    #         # Log to stdout/stderr for proper collection
+    #         command: ["/app"]
+    #         args: ["--log-level=info", "--log-format=json"]
+    #         
+    #         # Resource limits to prevent log flooding
+    #         resources:
+    #           limits:
+    #             memory: "512Mi"
+    #             cpu: "500m"
+    #           requests:
+    #             memory: "256Mi"
+    #             cpu: "250m"
+    #
+    #         # Environment variables for log configuration
+    #         env:
+    #         - name: LOG_LEVEL
+    #           value: "info"
+    #         - name: LOG_FORMAT
+    #           value: "json"
+    #         - name: LOG_OUTPUT
+    #           value: "stdout"
+    
+  # Log monitoring and alerting rules
+  log-monitoring-rules.yaml: |
+    # Prometheus rules for log monitoring
+    groups:
+    - name: log-management
+      rules:
+      - alert: HighLogVolume
+        expr: rate(container_fs_writes_bytes_total{device="/dev/nvme0n1p2"}[5m]) > 10485760  # 10MB/s
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High log write volume detected"
+          description: "Node {{ $labels.instance }} is writing logs at {{ $value }} bytes/sec"
+          
+      - alert: DiskSpaceLogPartition
+        expr: (node_filesystem_avail_bytes{mountpoint="/var/log"} / node_filesystem_size_bytes{mountpoint="/var/log"}) < 0.1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Log partition running out of space"
+          description: "Log partition on {{ $labels.instance }} has less than 10% free space"
+          
+      - alert: LogRotationFailure
+        expr: increase(logrotate_errors_total[1h]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Log rotation failure detected"
+          description: "Log rotation failed on {{ $labels.instance }}"

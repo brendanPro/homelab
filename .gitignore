@@ -1,0 +1,6 @@
+.env*
+output.yaml
+sec.yaml
+charts
+*tobeignore*
+admin-secret.yaml

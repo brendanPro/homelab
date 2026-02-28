@@ -1,0 +1,9 @@
+namespace: tsnginx
+commonLabels:
+  app.kubernetes.io/name:  tailscale-nginx
+namePrefix: dev-
+resources:
+- resources/namespace.yaml
+- resources/deployment.yaml
+- resources/service.yaml
+- resources/ingress.yaml

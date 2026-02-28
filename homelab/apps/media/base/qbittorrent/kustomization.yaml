@@ -1,0 +1,15 @@
+namespace: qbittorrent
+commonLabels:
+  app.kubernetes.io/name: qbittorrent
+commonAnnotations:
+  app.kubernetes.io/name: qbittorrent
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+
+configMapGenerator:
+- name: qbittorrent-config
+  files: 
+    - tobeignore.yaml

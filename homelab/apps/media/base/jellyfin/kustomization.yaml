@@ -1,0 +1,12 @@
+namespace: jellyfin
+commonLabels:
+  app.kubernetes.io/name: jellyfin
+commonAnnotations:
+  app.kubernetes.io/name: jellyfin
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- pvc.yaml
+- storageclass.yaml

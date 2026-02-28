@@ -1,0 +1,7 @@
+kind: Kustomization
+namespace: tailscale
+resources:
+- ./base
+- sec.yaml
+
+

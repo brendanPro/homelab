@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: log-management
+  labels:
+    name: log-management
+    app.kubernetes.io/name: log-management

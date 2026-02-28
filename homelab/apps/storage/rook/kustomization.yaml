@@ -1,0 +1,6 @@
+namespace: rook-ceph
+
+resources:
+- ./resources/common.yaml
+- ./resources/crd.yaml
+- ./resources/operator.yaml

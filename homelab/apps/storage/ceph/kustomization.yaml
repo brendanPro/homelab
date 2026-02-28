@@ -1,0 +1,5 @@
+namespace: rook-ceph
+
+resources:
+- ./resources/cluster.yaml
+- ./resources/ing.yaml 

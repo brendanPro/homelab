@@ -1,0 +1,14 @@
+namespace: minecraft-server
+commonLabels:
+  app.kubernetes.io/name: minecraft-server
+commonAnnotations:
+  app.kubernetes.io/name: minecraft-server
+
+
+resources:
+- ns.yaml
+- deploy.yaml
+- svc.yaml
+- ing.yaml
+- pvc.yaml
+- storageclass.yaml
