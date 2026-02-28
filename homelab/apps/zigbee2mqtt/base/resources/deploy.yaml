@@ -12,7 +12,7 @@ spec:
         z2m: usb
       containers:
         - name: zigbee2mqtt
-          image: koenkk/zigbee2mqtt:2.0.0
+          image: koenkk/zigbee2mqtt:2.8.0
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
