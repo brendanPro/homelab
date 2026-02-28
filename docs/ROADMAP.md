@@ -115,7 +115,35 @@ spec:
 - [ ] Créer `apps/infra/application.yaml`
 - [ ] Créer l'Application racine (app-of-apps)
 
-### Étape 5 — Migration des namespaces
+### Étape 5 — Gestion des versions d'images
+
+Objectif : ne plus jamais avoir de drift entre le cluster et le code, et être notifié automatiquement des mises à jour disponibles.
+
+**Règle par catégorie :**
+
+| Catégorie | Apps | Stratégie |
+|-----------|------|-----------|
+| Données critiques | vaultwarden, homeassistant | Tag précis `x.y.z`, PR manuelle review obligatoire |
+| Apps avec état | zigbee2mqtt, frigate, mosquitto | Tag précis `x.y.z`, mise à jour contrôlée |
+| Apps stateless | homepage | `latest` acceptable |
+
+- [ ] Passer `homeassistant` de `latest` à un tag précis (récupérer la version en cours sur le cluster)
+- [ ] Passer `vaultwarden` de `latest` à un tag précis
+- [ ] Ajouter `renovate.json` à la racine du repo pour ouvrir des PRs automatiques sur les nouvelles versions d'images
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$"]
+  }
+}
+```
+
+- [ ] Activer Renovate Bot sur le repo GitHub (`github.com/brendanPro/homelab`)
+
+### Étape 6 — Migration des namespaces
 
 > **CRITIQUE — BACKUP OBLIGATOIRE avant toute migration de vaultwarden et homeassistant.**
 > Ces deux PVCs ne doivent JAMAIS être supprimés sans backup vérifié :
@@ -137,6 +165,6 @@ Pour chaque migration :
 3. Vérifier que tout fonctionne
 4. Supprimer l'ancien namespace
 
-### Étape 6 — Mise à jour des versions
+### ~~Étape 6 — Mise à jour des versions~~ ✅
 
-- [ ] `zigbee2mqtt` : `2.0.0` → `2.8.0`
+- [x] `zigbee2mqtt` : `2.0.0` → `2.8.0`
