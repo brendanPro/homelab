@@ -59,9 +59,17 @@ homelab/
 - [x] Créer `docs/ROADMAP.md` (ce fichier)
 - [ ] Réécrire `AGENTS.md` avec l'architecture actuelle, les règles IaC homelab et les avertissements critiques sur les volumes
 
-### Étape 1 — Ansible : provisioning des RPI
+### Étape 1 — Déployer ArgoCD
+
+- [ ] Créer namespace `argocd`
+- [ ] Appliquer `platform/argocd/install.yaml` (déplacer depuis `infra/argoCD/`)
+- [ ] Créer l'ingress Tailscale pour l'UI ArgoCD
+- [ ] Connecter ArgoCD au repo `git@github.com:brendanPro/homelab.git`
+
+### Étape 2 — Ansible : provisioning des RPI
 
 Remplacer `homelab/install.sh` (non idempotent, manuel nœud par nœud) par des playbooks Ansible.
+Utile principalement en cas de reconstruction complète du cluster.
 
 Commande unique pour reconstruire le cluster depuis zéro :
 ```bash
@@ -74,13 +82,6 @@ ansible-playbook -i ansible/inventory.yaml ansible/playbooks/setup-all.yaml
 - [ ] Créer `playbooks/setup-all.yaml`
 - [ ] Créer `playbooks/init-master.yaml` (kubeadm init + Calico)
 - [ ] Créer `playbooks/join-workers.yaml` (kubeadm join automatique)
-
-### Étape 2 — Déployer ArgoCD
-
-- [ ] Créer namespace `argocd`
-- [ ] Appliquer `platform/argocd/install.yaml` (déplacer depuis `infra/argoCD/`)
-- [ ] Créer l'ingress Tailscale pour l'UI ArgoCD
-- [ ] Connecter ArgoCD au repo `git@github.com:brendanPro/homelab.git`
 
 ### Étape 3 — Restructurer le repo
 
