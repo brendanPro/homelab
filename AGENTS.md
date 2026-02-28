@@ -61,7 +61,7 @@ homelab/
     └── ROADMAP.md
 ```
 
-> Note : la migration vers cette structure est en cours. L'ancienne structure (`homelab/apps/`, `infra/argoCD/`) est encore présente pendant la transition. Voir `docs/ROADMAP.md`.
+> Note : la migration vers cette structure est en cours. Voir `docs/ROADMAP.md`.
 
 ---
 
@@ -172,7 +172,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: <namespace>
-  namespace: argocd
+    namespace: platform
 spec:
   project: default
   source:

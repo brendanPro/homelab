@@ -62,7 +62,7 @@ homelab/
 ### Étape 1 — Déployer ArgoCD
 
 - [ ] Créer namespace `argocd`
-- [ ] Appliquer `platform/argocd/install.yaml` (déplacer depuis `infra/argoCD/`)
+- [x] Créer `platform/argocd/` avec Kustomize remote base (v3.3.2), namespace `platform`
 - [ ] Créer l'ingress Tailscale pour l'UI ArgoCD
 - [ ] Connecter ArgoCD au repo `git@github.com:brendanPro/homelab.git`
 
@@ -87,7 +87,7 @@ ansible-playbook -i ansible/inventory.yaml ansible/playbooks/setup-all.yaml
 
 - [ ] Créer la nouvelle arborescence `apps/` et `platform/`
 - [ ] Supprimer les dossiers hors scope (`gitea`, `n8n`, `adguard`, `media`, `factorio`, `minecraft`, `nginx-ts`, `storage`)
-- [ ] Déplacer `infra/argoCD/` → `platform/argocd/`
+- [x] Déplacer `infra/argoCD/` → `platform/argocd/`
 - [ ] Déplacer configs tailscale/openebs/calico → `platform/`
 
 ### Étape 4 — Pattern ArgoCD App-of-Apps
