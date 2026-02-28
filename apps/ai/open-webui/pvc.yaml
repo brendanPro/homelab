@@ -6,6 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: open-webui
   resources:
     requests:
       storage: 2Gi

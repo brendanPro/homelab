@@ -6,3 +6,42 @@ namespace: platform
 resources:
 - https://raw.githubusercontent.com/argoproj/argo-cd/v3.3.2/manifests/install.yaml
 - ingress.yaml
+
+patches:
+  - target:
+      kind: ConfigMap
+      name: argocd-cm
+    patch: |-
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: argocd-cm
+      data:
+        resource.exclusions: |
+          - apiGroups:
+              - "crd.projectcalico.org"
+            kinds:
+              - "*"
+            clusters:
+              - "*"
+  - target:
+      kind: ClusterRoleBinding
+      name: argocd-application-controller
+    patch: |-
+      - op: replace
+        path: /subjects/0/namespace
+        value: platform
+  - target:
+      kind: ClusterRoleBinding
+      name: argocd-applicationset-controller
+    patch: |-
+      - op: replace
+        path: /subjects/0/namespace
+        value: platform
+  - target:
+      kind: ClusterRoleBinding
+      name: argocd-server
+    patch: |-
+      - op: replace
+        path: /subjects/0/namespace
+        value: platform
