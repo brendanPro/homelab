@@ -24,3 +24,8 @@ spec:
   networking:
     networkPolicy:
       enabled: false
+    ingress:
+      enabled: true
+      className: tailscale
+      hosts:
+        - host: openclaw
