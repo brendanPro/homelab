@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: oci://ghcr.io/openclaw-rocks/charts
-    chart: openclaw-operator
-    targetRevision: "0.10.16"
+    repoURL: https://github.com/openclaw-rocks/k8s-operator.git
+    targetRevision: v0.10.16
+    path: config/default
   destination:
     server: https://kubernetes.default.svc
     namespace: openclaw-operator-system
