@@ -1,0 +1,26 @@
+apiVersion: openclaw.rocks/v1alpha1
+kind: OpenClawInstance
+metadata:
+  name: openclaw
+  namespace: ai
+spec:
+  env:
+    - name: OLLAMA_HOST
+      value: "http://ollama.ai.svc.cluster.local:11434"
+  config:
+    raw:
+      agents:
+        defaults:
+          model:
+            primary: "ollama/llama3.2:1b"
+      llmConfig:
+        providers:
+          ollama:
+            baseUrl: "http://ollama.ai.svc.cluster.local:11434"
+  storage:
+    persistence:
+      enabled: true
+      size: 5Gi
+  networking:
+    networkPolicy:
+      enabled: false
