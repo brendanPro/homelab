@@ -13,10 +13,6 @@ spec:
         defaults:
           model:
             primary: "ollama/llama3.2:1b"
-      llmConfig:
-        providers:
-          ollama:
-            baseUrl: "http://ollama.ai.svc.cluster.local:11434"
   storage:
     persistence:
       enabled: true
