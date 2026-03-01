@@ -4,3 +4,4 @@ namespace: ai
 resources:
   - ./storageclass.yaml
   - ./openclawinstance.yaml
+  - ./ingress.yaml
