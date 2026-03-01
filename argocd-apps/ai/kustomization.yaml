@@ -4,5 +4,6 @@ resources:
   - ai-namespace.yaml
   - ollama.yaml
   - open-webui.yaml
+  - openclaw-crds.yaml
   - openclaw-operator.yaml
   - openclaw.yaml
