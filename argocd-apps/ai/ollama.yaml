@@ -4,6 +4,7 @@ metadata:
   name: ollama
   namespace: platform
 spec:
+  revisionHistoryLimit: 4
   project: default
   source:
     repoURL: git@github.com:brendanPro/homelab.git

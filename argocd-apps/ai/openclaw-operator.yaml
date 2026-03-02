@@ -6,6 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 spec:
+  revisionHistoryLimit: 4
   project: default
   source:
     repoURL: https://github.com/openclaw-rocks/k8s-operator.git
