@@ -70,12 +70,23 @@ source .env && kubectl create secret generic openclaw-llm-keys \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-### 2. La clé est référencée automatiquement via le spec
+### 2. La clé est injectée automatiquement via le spec
 
-Le champ `apiKey: "GOOGLE_GENERATIVE_AI_API_KEY"` dans `openclawinstance.yaml` indique à OpenClaw
-le **nom** de la variable d'environnement où lire la clé. La valeur vient du secret Kubernetes monté en env var.
+Dans `openclawinstance.yaml`, l'env var `GEMINI_API_KEY` est montée depuis le secret :
 
-Aucune étape manuelle requise — tout est géré par ArgoCD au déploiement.
+```yaml
+env:
+  - name: GEMINI_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: openclaw-llm-keys
+        key: GEMINI_API_KEY
+```
+
+OpenClaw lit **`GEMINI_API_KEY`** automatiquement pour le provider `google` (provider built-in).
+**Aucune config `models.providers.google` n'est nécessaire** — ne pas l'ajouter, ça casse tout.
+
+> ⚠️ Ne pas utiliser `GOOGLE_GENERATIVE_AI_API_KEY` — OpenClaw utilise `GEMINI_API_KEY`.
 
 ### 3. Récupérer le token de connexion
 
