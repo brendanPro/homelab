@@ -7,6 +7,8 @@ spec:
   env:
     - name: OLLAMA_HOST
       value: "http://ollama.ai.svc.cluster.local:11434"
+    - name: OLLAMA_API_KEY
+      value: "ollama-local"
   config:
     raw:
       gateway:
