@@ -15,6 +15,30 @@ spec:
         controlUi:
           allowedOrigins:
             - "https://openclaw.wombat-wahoo.ts.net"
+      models:
+        providers:
+          ollama:
+            baseUrl: "http://ollama.ai.svc.cluster.local:11434"
+            api: "ollama"
+            models:
+              - id: "llama3.2:1b"
+                name: "Llama 3.2 1B"
+                input: ["text"]
+                cost: {input: 0, output: 0, cacheRead: 0, cacheWrite: 0}
+                contextWindow: 8192
+                maxTokens: 81920
+              - id: "phi3:mini"
+                name: "Phi-3 Mini"
+                input: ["text"]
+                cost: {input: 0, output: 0, cacheRead: 0, cacheWrite: 0}
+                contextWindow: 8192
+                maxTokens: 81920
+              - id: "gemma2:2b"
+                name: "Gemma 2 2B"
+                input: ["text"]
+                cost: {input: 0, output: 0, cacheRead: 0, cacheWrite: 0}
+                contextWindow: 8192
+                maxTokens: 81920
       agents:
         defaults:
           model:
