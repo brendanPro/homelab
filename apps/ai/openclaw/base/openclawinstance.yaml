@@ -20,6 +20,7 @@ spec:
         providers:
           google:
             api: "google-generative-ai"
+            baseUrl: "https://generativelanguage.googleapis.com/v1beta"
             apiKey: "GOOGLE_GENERATIVE_AI_API_KEY"
             models:
               - id: "gemini-2.0-flash"
