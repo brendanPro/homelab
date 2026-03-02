@@ -20,6 +20,18 @@ spec:
       value: /home/openclaw/.openclaw/.config/gh
     - name: PATH
       value: /home/openclaw/.openclaw/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: PYTHONPATH
+      value: /home/openclaw/.openclaw/python-packages
+    - name: LINKEDIN_LI_AT
+      valueFrom:
+        secretKeyRef:
+          name: openclaw-linkedin
+          key: LINKEDIN_LI_AT
+    - name: LINKEDIN_JSESSIONID
+      valueFrom:
+        secretKeyRef:
+          name: openclaw-linkedin
+          key: LINKEDIN_JSESSIONID
   config:
     raw:
       gateway:

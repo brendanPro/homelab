@@ -10,7 +10,6 @@ spec:
       app.kubernetes.io/name: openclaw
   policyTypes:
     - Ingress
-    - Egress
   ingress:
     - from:
         - namespaceSelector:
@@ -20,12 +19,4 @@ spec:
         - port: 18790
           protocol: TCP
         - port: 18794
-          protocol: TCP
-  egress:
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: ai
-      ports:
-        - port: 11434
           protocol: TCP
