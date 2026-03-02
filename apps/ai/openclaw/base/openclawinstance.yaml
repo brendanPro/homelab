@@ -24,7 +24,7 @@ spec:
       agents:
         defaults:
           model:
-            primary: "openrouter/google/gemma-3-12b-it:free"
+            primary: "openrouter/deepseek/deepseek-chat"
   storage:
     persistence:
       enabled: true
