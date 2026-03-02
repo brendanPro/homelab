@@ -9,6 +9,10 @@ spec:
       value: "http://ollama.ai.svc.cluster.local:11434"
   config:
     raw:
+      gateway:
+        controlUi:
+          allowedOrigins:
+            - "https://openclaw.wombat-wahoo.ts.net"
       agents:
         defaults:
           model:
