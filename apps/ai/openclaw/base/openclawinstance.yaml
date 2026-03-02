@@ -21,7 +21,6 @@ spec:
           google:
             api: "google-generative-ai"
             baseUrl: "https://generativelanguage.googleapis.com/v1beta"
-            apiKey: "GOOGLE_GENERATIVE_AI_API_KEY"
             models:
               - id: "gemini-flash-latest"
                 name: "Gemini Flash Latest"
