@@ -16,6 +16,10 @@ spec:
         secretKeyRef:
           name: openclaw-llm-keys
           key: OPENROUTER_API_KEY
+    - name: GH_CONFIG_DIR
+      value: /home/openclaw/.openclaw/.config/gh
+    - name: PATH
+      value: /home/openclaw/.openclaw/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   config:
     raw:
       gateway:
