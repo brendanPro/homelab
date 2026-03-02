@@ -10,6 +10,11 @@ spec:
         secretKeyRef:
           name: openclaw-llm-keys
           key: GEMINI_API_KEY
+    - name: OPENROUTER_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: openclaw-llm-keys
+          key: OPENROUTER_API_KEY
   config:
     raw:
       gateway:
@@ -19,7 +24,8 @@ spec:
       agents:
         defaults:
           model:
-            primary: "google/gemini-flash-latest"
+            primary: "openrouter/meta-llama/llama-3.3-70b-instruct:free"
+            fallback: "google/gemini-flash-latest"
   storage:
     persistence:
       enabled: true
