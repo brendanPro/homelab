@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: openclaw
+  name: openclaw-canvas
   namespace: ai
 spec:
   ingressClassName: tailscale
