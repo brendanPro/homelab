@@ -24,7 +24,7 @@ spec:
       agents:
         defaults:
           model:
-            primary: "openrouter/meta-llama/llama-3.3-70b-instruct:free"
+            primary: "openrouter/google/gemma-3-27b-it:free"
   storage:
     persistence:
       enabled: true
