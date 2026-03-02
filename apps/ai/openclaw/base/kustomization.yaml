@@ -3,5 +3,6 @@ kind: Kustomization
 namespace: ai
 resources:
   - ./storageclass.yaml
+  - ./networkpolicy.yaml
   - ./openclawinstance.yaml
   - ./ingress.yaml
