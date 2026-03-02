@@ -24,7 +24,7 @@ spec:
       agents:
         defaults:
           model:
-            primary: "openrouter/google/gemma-3-27b-it:free"
+            primary: "google/gemma-3-27b-it:free"
   storage:
     persistence:
       enabled: true
