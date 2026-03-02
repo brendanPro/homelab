@@ -1,0 +1,44 @@
+- name: Préparer le RPi claw
+  hosts: rpiclaw
+  become: true
+
+  tasks:
+    - name: Mettre à jour les paquets apt
+      apt:
+        update_cache: true
+        upgrade: dist
+        cache_valid_time: 3600
+
+    - name: Installer les dépendances de base
+      apt:
+        name:
+          - curl
+          - git
+          - ca-certificates
+          - python3
+          - python3-pip
+          - unzip
+          - chromium
+          - chromium-driver
+        state: present
+
+    - name: Ajouter le dépôt NodeSource pour Node.js {{ node_version }}
+      shell: |
+        curl -fsSL https://deb.nodesource.com/setup_{{ node_version }}.x | bash -
+      args:
+        creates: /etc/apt/sources.list.d/nodesource.list
+
+    - name: Installer Node.js
+      apt:
+        name: nodejs
+        state: present
+        update_cache: true
+
+    - name: Vérifier Node.js
+      command: node --version
+      register: node_out
+      changed_when: false
+
+    - name: Afficher la version Node.js
+      debug:
+        msg: "✅ Node.js {{ node_out.stdout }} installé"

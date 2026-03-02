@@ -5,3 +5,5 @@ charts
 *tobeignore*
 admin-secret.yaml
 *-secret.yaml
+ansible/host_vars/*.yml
+!ansible/host_vars/*.example

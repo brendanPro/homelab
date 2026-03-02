@@ -1,0 +1,5 @@
+# Copier ce fichier en rpiclaw.local.yml et remplir les valeurs
+# Ce fichier exemple est versionné, rpiclaw.local.yml est gitignored
+
+ansible_user: ton_username          # ce que tu as mis dans Raspberry Pi Imager
+ansible_ssh_private_key_file: ~/.ssh/id_ed25519  # ou id_rsa selon ta clé

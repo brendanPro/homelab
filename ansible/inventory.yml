@@ -1,0 +1,5 @@
+all:
+  children:
+    rpiclaw:
+      hosts:
+        rpiclaw.local:

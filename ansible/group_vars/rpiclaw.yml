@@ -1,0 +1,5 @@
+openclaw_version: "latest"
+openclaw_user: "brendan"
+openclaw_dir: "/home/brendan/.openclaw"
+
+node_version: "22"
