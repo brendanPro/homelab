@@ -4,6 +4,7 @@ metadata:
   name: openclaw
   namespace: ai
 spec:
+  serviceAccountName: openclaw
   env:
     - name: GEMINI_API_KEY
       valueFrom:
