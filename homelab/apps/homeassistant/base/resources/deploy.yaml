@@ -9,9 +9,24 @@ spec:
     type: Recreate
   template:
     spec:
+      initContainers:
+        - name: install-hass-web-proxy-lib
+          image: ghcr.io/home-assistant/home-assistant:2026.5.4
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - python3 -m pip install --no-cache-dir --ignore-requires-python --target /config/deps hass-web-proxy-lib
+          volumeMounts:
+            - name: ha-config-root
+              mountPath: /config
       containers:
       - name: home-assistant-app
-        image: "ghcr.io/home-assistant/home-assistant:latest"
+        image: "ghcr.io/home-assistant/home-assistant:2026.5.4"
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: PYTHONPATH
+            value: /config/deps
         securityContext:
           privileged: null
         ports:
@@ -19,10 +34,6 @@ spec:
             containerPort: 8123
             protocol: TCP
         resources: {}
-        lifecycle:
-          postStart:
-            exec:
-              command: ["pip", "install", "hass_web_proxy_lib"]
         livenessProbe:
           httpGet:
             path: /manifest.json

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "schedule": ["before 9am on monday"],
+  "labels": ["renovate"],
+  "kubernetes": {
+    "fileMatch": [
+      "homelab/apps/.+/deploy\\.yaml$",
+      "homelab/apps/.+/deployment\\.yaml$",
+      "homelab/apps/.+/resources/.+\\.yaml$"
+    ]
+  },
+  "kustomize": {
+    "fileMatch": [
+      "(^|/)kustomization\\.yaml$"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "Apps critiques — mise à jour manuelle, PR uniquement",
+      "matchPackageNames": [
+        "ghcr.io/home-assistant/home-assistant",
+        "docker.io/vaultwarden/server",
+        "koenkk/zigbee2mqtt",
+        "ghcr.io/blakeblackshear/frigate",
+        "eclipse-mosquitto"
+      ],
+      "automerge": false,
+      "labels": ["renovate", "critical"]
+    },
+    {
+      "description": "Media stack — groupées en une seule PR",
+      "matchPackageNames": [
+        "lscr.io/linuxserver/jellyfin",
+        "lscr.io/linuxserver/sonarr",
+        "lscr.io/linuxserver/radarr",
+        "lscr.io/linuxserver/prowlarr",
+        "lscr.io/linuxserver/qbittorrent",
+        "docker.io/fallenbagel/jellyseerr"
+      ],
+      "groupName": "media stack",
+      "automerge": false,
+      "labels": ["renovate", "media"]
+    },
+    {
+      "description": "Tailscale operator Helm chart — PR uniquement, review manuelle",
+      "matchPackageNames": ["tailscale-operator"],
+      "matchManagers": ["kustomize"],
+      "automerge": false,
+      "labels": ["renovate", "infra", "tailscale"]
+    },
+    {
+      "description": "Infra réseau et stockage — ignorer (trop sensible, mise à jour manuelle)",
+      "matchPackageNames": [
+        "docker.io/calico/cni",
+        "docker.io/calico/node",
+        "docker.io/calico/kube-controllers",
+        "registry.k8s.io/metrics-server/metrics-server",
+        "quay.io/ceph/ceph",
+        "rook/ceph"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Ignorer les dossiers sandbox et charts helm vendorisés",
+      "matchPaths": [
+        "homelab/apps/storage/sbx/**",
+        "homelab/apps/storage/rook/**",
+        "homelab/apps/gitea/charts/**"
+      ],
+      "enabled": false
+    }
+  ]
+}
