@@ -8,8 +8,4 @@ resources:
 - deployment.yaml
 - service.yaml
 - ingress.yaml
-
-configMapGenerator:
-- name: qbittorrent-config
-  files: 
-    - tobeignore.yaml
+- config.sops.yaml

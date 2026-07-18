@@ -17,11 +17,11 @@ Regroupement fonctionnel (au lieu d'un namespace par service) :
 
 | Namespace    | Services                                          |
 |--------------|---------------------------------------------------|
-| `smart-home` | homeassistant, mosquitto, zigbee2mqtt, frigate    |
-| `infra`      | homepage, vaultwarden                             |
+| `smart-home` | homeassistant, mosquitto, zigbee2mqtt, frigate, homepage |
+| `infra`      | vaultwarden                                       |
 | `platform`   | argocd, tailscale, openebs, calico (inchangé)     |
 
-Apps supprimées du repo (hors scope) : `gitea`, `n8n`, `adguard`, `media`, `factorio`, `minecraft`, `nginx-ts`, `storage` (Ceph/Rook)
+Apps supprimées du repo (hors scope) : `gitea`, `n8n`, `velero`, `adguard`, `media`, `factorio`, `minecraft`, `nginx-ts`, `storage` (Ceph/Rook)
 
 ---
 
@@ -86,7 +86,8 @@ ansible-playbook -i ansible/inventory.yaml ansible/playbooks/setup-all.yaml
 ### Étape 3 — Restructurer le repo
 
 - [ ] Créer la nouvelle arborescence `apps/` et `platform/`
-- [ ] Supprimer les dossiers hors scope (`gitea`, `n8n`, `adguard`, `media`, `factorio`, `minecraft`, `nginx-ts`, `storage`)
+- [ ] Supprimer les dossiers hors scope (`gitea`, `adguard`, `media`, `factorio`, `minecraft`, `nginx-ts`, `storage`)
+- [x] Supprimer `n8n` et `velero`
 - [x] Déplacer `infra/argoCD/` → `platform/argocd/`
 - [ ] Déplacer configs tailscale/openebs/calico → `platform/`
 
@@ -112,9 +113,9 @@ spec:
       selfHeal: true
 ```
 
-- [ ] Créer `apps/smart-home/application.yaml`
-- [ ] Créer `apps/infra/application.yaml`
-- [ ] Créer l'Application racine (app-of-apps)
+- [x] Créer l'Application racine (app-of-apps) — `platform/argocd/root-app.yaml`
+- [x] Migrer **homepage** → namespace `smart-home` — `argocd-apps/smart-home/homepage.yaml`
+- [ ] Créer les Applications pour les autres apps (smart-home, infra restante, etc.)
 
 ### Étape 5 — Gestion des versions d'images
 

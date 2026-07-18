@@ -39,6 +39,11 @@ Homelab Kubernetes tournant sur un cluster Raspberry Pi 5, géré en GitOps via 
 - **GitOps** : ArgoCD
 - **Provisioning** : Ansible (en cours de mise en place, voir `ansible/`)
 
+> ⚠️ **Outillage** : Ce repo utilise **kustomize uniquement** pour la gestion des manifests.
+> Ne jamais installer ni utiliser `helm` directement. Les `helmCharts` dans les `kustomization.yaml`
+> sont rendus via `kubectl kustomize --enable-helm` (kustomize gère helm en interne).
+> Ne pas suggérer `helm install`, `helm upgrade` ou `brew install helm`.
+
 ---
 
 ## Structure du repo
@@ -51,7 +56,7 @@ homelab/
 │   └── roles/
 ├── apps/
 │   ├── smart-home/               ← homeassistant, mosquitto, zigbee2mqtt, frigate
-│   └── infra/                    ← homepage, vaultwarden
+│   └── infra/                    ← vaultwarden
 ├── platform/
 │   ├── argocd/
 │   ├── tailscale/
@@ -75,13 +80,13 @@ homelab/
 | mosquitto | `eclipse-mosquitto:latest` | `mosquitto-data`, `mosquitto-log` |
 | zigbee2mqtt | `koenkk/zigbee2mqtt:2.8.0` | `zigbee2mqtt-data` |
 | frigate | `ghcr.io/blakeblackshear/frigate:0.14.1` | `frigate-config`, `frigate-storage` |
+| homepage | `ghcr.io/gethomepage/homepage:latest` | — |
 
 ### Namespace `infra`
 
 | App | Image | PVC critique |
 |-----|-------|-------------|
 | vaultwarden | `docker.io/vaultwarden/server:latest` | `vaultwarden-pvc` ⚠️ |
-| homepage | `ghcr.io/gethomepage/homepage:latest` | — |
 
 ### Namespace `platform`
 
@@ -167,27 +172,47 @@ spec:
 
 ### Pattern Application ArgoCD
 
+App-of-apps : `platform/argocd/root-app.yaml` → `argocd-apps/` → une Application par app.
+
+Première app migrée : **homepage** (`argocd-apps/smart-home/homepage.yaml`).
+
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: <namespace>
-    namespace: platform
+  name: homepage
+  namespace: platform
 spec:
   project: default
   source:
     repoURL: git@github.com:brendanPro/homelab.git
     targetRevision: main
-    path: apps/<namespace>
+    path: homelab/apps/homepage
   destination:
     server: https://kubernetes.default.svc
-    namespace: <namespace>
+    namespace: smart-home
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
+```
+
+Bootstrap ArgoCD (une fois) :
+
+```bash
+# 1. Repo GitHub (deploy key read-only)
+kubectl create secret generic homelab-repo -n platform ...
+
+# 2. Clé SOPS pour déchiffrer secret.sops.yaml au sync
+kubectl create secret generic argocd-age-key -n platform \
+  --from-file=keys.txt=$HOME/.config/sops/age/keys.txt
+
+# 3. Déployer ArgoCD + root app-of-apps
+kubectl apply -k platform/argocd
+
+# 4. git push → ArgoCD sync homepage automatiquement
 ```
 
 ---
@@ -202,7 +227,7 @@ Ces règles tiennent compte des contraintes d'une infra maison sur RPI :
 - Versionner les images applicatives (pas de `latest` pour les apps critiques comme frigate ou zigbee2mqtt)
 - Stocker les configs applicatives dans des ConfigMaps (dossier `assets/`)
 - Référencer les secrets via `secretKeyRef` — jamais de valeur en dur dans les YAML commités
-- Ajouter `admin-secret.yaml` au `.gitignore` pour les secrets locaux
+- Chiffrer les secrets avec **SOPS + age** (`*.sops.yaml`) — voir `secrets/README.md`
 
 ### À ne pas faire
 
@@ -221,10 +246,30 @@ Sur RPI, les ressources sont limitées. Les `requests` et `limits` CPU/mémoire 
 
 ## Secrets et variables d'environnement
 
-Les secrets ne sont jamais commités. Ils sont créés manuellement sur le cluster.
-Les fichiers `*.env` et `*-secret.yaml` (sauf `.example`) sont dans le `.gitignore`.
+Les secrets applicatifs sont gérés avec **SOPS + age** et versionnés chiffrés (`*.sops.yaml`).
 
-### Repo ArgoCD (clé SSH deploy key GitHub)
+| Élément | Emplacement |
+|---------|-------------|
+| Clé publique age | `.sops.yaml` (commité) |
+| Clé privée age | `~/.config/sops/age/keys.txt` (standard SOPS, gitignored) |
+| Workflow complet | `secrets/README.md` |
+
+### Setup rapide
+
+```bash
+# Éditer un secret (SOPS trouve la clé dans ~/.config/sops/age/keys.txt)
+sops homelab/apps/frigate/base/secret.sops.yaml
+
+# Déployer la clé sur ArgoCD (une fois)
+kubectl create secret generic argocd-age-key \
+  -n platform \
+  --from-file=keys.txt=$HOME/.config/sops/age/keys.txt \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
+ArgoCD déchiffre automatiquement les `*.sops.yaml` au sync si `argocd-age-key` est présent.
+
+### Secrets bootstrap (hors Git — chicken-and-egg ArgoCD)
 
 La clé deploy `~/.ssh/argocd_deploy_key` doit être ajoutée dans GitHub → Settings → Deploy keys (read-only).
 
@@ -241,17 +286,18 @@ kubectl label secret homelab-repo -n platform argocd.argoproj.io/secret-type=rep
 
 Voir le template : `platform/argocd/base/repo-secret.yaml.example`
 
-### Autres secrets
+### Secrets SOPS par app
 
-```bash
-# Exemple : secret admin Gitea
-kubectl create secret generic gitea-admin-secret \
-  --namespace gitea \
-  --from-literal=password='ton-mot-de-passe'
-```
+| App | Fichier |
+|-----|---------|
+| tailscale | `homelab/config/tailscale/oauth.sops.yaml` |
+| frigate | `homelab/apps/frigate/base/secret.sops.yaml` |
+| vaultwarden | `homelab/apps/vaultwarden/base/secret.sops.yaml` |
+| factorio | `homelab/apps/factorio/base/secret.sops.yaml` |
+| homepage | `homelab/apps/homepage/resources/secret.sops.yaml` |
+| qbittorrent | `homelab/apps/media/base/qbittorrent/config.sops.yaml` |
 
-Les variables sensibles référencées dans les déploiements :
-- `frigate/config.yaml` → `{FRIGATE_RTSP_USER}` et `{FRIGATE_RTSP_PASSWORD}` via variables d'env
+Les variables sensibles Frigate dans `assets/config.yaml` utilisent `{FRIGATE_RTSP_USER}` / `{FRIGATE_RTSP_PASSWORD}` — injectées via le secret `creds`.
 
 ---
 

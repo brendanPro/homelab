@@ -9,7 +9,6 @@ commonAnnotations:
 
 namespace: frigate
 
-
 resources:
 - ./ns.yaml
 - ./deploy.yaml
@@ -17,13 +16,9 @@ resources:
 - ./ing.yaml
 - ./pvc.yaml
 - ./storageclass.yaml
+- secret.sops.yaml
 
 configMapGenerator:
 - name: config
   files:
   - ./assets/config.yaml
-
-secretGenerator:
-- name: creds
-  env:
-   .env

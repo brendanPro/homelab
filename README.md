@@ -22,9 +22,9 @@ Infrastructure as Code pour mon homelab Kubernetes sur cluster Raspberry Pi 5, g
 
 ## Apps en production
 
-**`smart-home`** — homeassistant, mosquitto, zigbee2mqtt, frigate
+**`smart-home`** — homeassistant, mosquitto, zigbee2mqtt, frigate, homepage
 
-**`infra`** — homepage, vaultwarden
+**`infra`** — vaultwarden
 
 ## Structure du repo
 

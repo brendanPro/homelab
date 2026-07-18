@@ -4,15 +4,10 @@ commonLabels:
 commonAnnotations:
   app.kubernetes.io/name: factorio
 
-secretGenerator:
-- name: factorio-secret
-  envs:
-  - .env
-
 resources:
 - ns.yaml
 - deploy.yaml
 - svc.yaml
 - pvc.yaml
 - storageclass.yaml
-
+- secret.sops.yaml

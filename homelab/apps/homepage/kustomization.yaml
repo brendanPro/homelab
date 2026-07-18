@@ -1,4 +1,4 @@
-namespace: homepage
+namespace: smart-home
 commonLabels:
   app.kubernetes.io/name: homepage
 commonAnnotations:
@@ -23,6 +23,6 @@ resources:
 - ./resources/svc.yaml
 - ./resources/ing.yaml
 - ./resources/sa.yaml
-- ./resources/sec.yaml
+- ./resources/secret.sops.yaml
 - ./resources/cr.yaml
 - ./resources/crb.yaml

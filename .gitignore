@@ -1,9 +1,16 @@
-.env*
 output.yaml
-sec.yaml
 charts
+
+# Clé privée age — ne jamais committer
+secrets/age.key
+
+# Anciens patterns secrets (remplacés par *.sops.yaml)
+.env*
+sec.yaml
 *tobeignore*
 admin-secret.yaml
 *-secret.yaml
+!**/*.sops.yaml
+
 ansible/host_vars/*.yml
 !ansible/host_vars/*.example

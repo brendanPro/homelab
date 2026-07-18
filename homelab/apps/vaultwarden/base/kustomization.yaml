@@ -4,16 +4,6 @@ commonLabels:
 commonAnnotations:
   app.kubernetes.io/name: vaultwarden
 
-configMapGenerator:
-- name: vaultwarden-config
-  envs:
-  - .env.config
-
-secretGenerator:
-- name: vaultwarden-secret
-  envs:
-  - .env.secret
-
 resources:
 - ns.yaml
 - deploy.yaml
@@ -21,3 +11,5 @@ resources:
 - pvc.yaml
 - sc.yaml
 - svc.yaml
+- config.yaml
+- secret.sops.yaml
