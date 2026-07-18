@@ -205,11 +205,11 @@ Bootstrap ArgoCD (une fois) :
 # 1. Repo GitHub (deploy key read-only)
 kubectl create secret generic homelab-repo -n platform ...
 
-# 2. Clé SOPS pour déchiffrer secret.sops.yaml au sync
+# 2. Clé SOPS montée sur le repo-server (KSOPS)
 kubectl create secret generic argocd-age-key -n platform \
   --from-file=keys.txt=$HOME/.config/sops/age/keys.txt
 
-# 3. Déployer ArgoCD + root app-of-apps
+# 3. Déployer ArgoCD (inclut KSOPS + --enable-alpha-plugins) + root app-of-apps
 kubectl apply -k platform/argocd
 
 # 4. git push → ArgoCD sync homepage automatiquement
@@ -267,7 +267,7 @@ kubectl create secret generic argocd-age-key \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-ArgoCD déchiffre automatiquement les `*.sops.yaml` au sync si `argocd-age-key` est présent.
+ArgoCD déchiffre les `*.sops.yaml` via le plugin **KSOPS** (repo-server patché dans `platform/argocd/base/repo-server-ksops-patch.yaml`) si `argocd-age-key` est présent. Les apps Kustomize référencent les secrets via un générateur `kind: ksops` (voir `homelab/apps/homepage/resources/secret-generator.yaml`).
 
 ### Secrets bootstrap (hors Git — chicken-and-egg ArgoCD)
 

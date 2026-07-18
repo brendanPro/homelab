@@ -17,12 +17,14 @@ configMapGenerator:
     - ./assets/custom.js
     - ./assets/proxmox.yaml
 
+generators:
+- ./resources/secret-generator.yaml
+
 resources:
 - ./resources/ns.yaml
 - ./resources/deploy.yaml
 - ./resources/svc.yaml
 - ./resources/ing.yaml
 - ./resources/sa.yaml
-- ./resources/secret.sops.yaml
 - ./resources/cr.yaml
 - ./resources/crb.yaml

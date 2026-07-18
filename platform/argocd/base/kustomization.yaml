@@ -17,6 +17,7 @@ patches:
       metadata:
         name: argocd-cm
       data:
+        kustomize.buildOptions: --enable-alpha-plugins
         resource.exclusions: |
           - apiGroups:
               - "crd.projectcalico.org"
@@ -24,6 +25,7 @@ patches:
               - "*"
             clusters:
               - "*"
+  - path: repo-server-ksops-patch.yaml
   - target:
       kind: ClusterRoleBinding
       name: argocd-application-controller

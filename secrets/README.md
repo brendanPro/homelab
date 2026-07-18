@@ -32,7 +32,16 @@ kubectl create secret generic argocd-age-key \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-ArgoCD déchiffre automatiquement les fichiers `*.sops.yaml` au sync.
+ArgoCD ne déchiffre **pas** SOPS nativement. Le repo-server est patché avec **KSOPS** (`platform/argocd/base/repo-server-ksops-patch.yaml`) et monte `argocd-age-key`. Chaque app Kustomize utilise un générateur `kind: ksops` pointant vers le fichier `*.sops.yaml`.
+
+```bash
+kubectl create secret generic argocd-age-key \
+  -n platform \
+  --from-file=keys.txt=$HOME/.config/sops/age/keys.txt \
+  --dry-run=client -o yaml | kubectl apply -f -
+
+kubectl apply -k platform/argocd
+```
 
 ### Secrets bootstrap (hors Git)
 
@@ -78,7 +87,7 @@ sops -d homelab/config/tailscale/oauth.sops.yaml
 kubectl kustomize homelab/apps/frigate --enable-helm
 ```
 
-> `kubectl kustomize` affiche les valeurs chiffrées — c'est normal. ArgoCD déchiffre avant apply.
+> `kubectl kustomize` affiche les valeurs chiffrées sans KSOPS local — normal. ArgoCD déchiffre via KSOPS au sync.
 
 ## Inventaire des secrets SOPS
 
