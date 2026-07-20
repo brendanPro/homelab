@@ -174,7 +174,7 @@ spec:
 
 App-of-apps : `platform/argocd/root-app.yaml` → `argocd-apps/` → une Application par app.
 
-Première app migrée : **homepage** (`argocd-apps/smart-home/homepage.yaml`).
+Première app migrée : **homepage** (`argocd-apps/smart-home/homepage.yaml`). **Frigate** phase 1 GitOps : même pattern, namespace runtime `frigate` conservé (`argocd-apps/smart-home/frigate.yaml`).
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -258,7 +258,7 @@ Les secrets applicatifs sont gérés avec **SOPS + age** et versionnés chiffré
 
 ```bash
 # Éditer un secret (SOPS trouve la clé dans ~/.config/sops/age/keys.txt)
-sops homelab/apps/frigate/base/secret.sops.yaml
+sops apps/smart-home/frigate/base/secret.sops.yaml
 
 # Déployer la clé sur ArgoCD (une fois)
 kubectl create secret generic argocd-age-key \
@@ -291,7 +291,7 @@ Voir le template : `platform/argocd/base/repo-secret.yaml.example`
 | App | Fichier |
 |-----|---------|
 | tailscale | `homelab/config/tailscale/oauth.sops.yaml` |
-| frigate | `homelab/apps/frigate/base/secret.sops.yaml` |
+| frigate | `apps/smart-home/frigate/base/secret.sops.yaml` |
 | vaultwarden | `homelab/apps/vaultwarden/base/secret.sops.yaml` |
 | factorio | `homelab/apps/factorio/base/secret.sops.yaml` |
 | homepage | `apps/smart-home/homepage/resources/secret.sops.yaml` |

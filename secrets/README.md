@@ -65,14 +65,14 @@ kubectl label secret homelab-repo -n platform \
 ### Éditer un secret
 
 ```bash
-sops homelab/apps/frigate/base/secret.sops.yaml
+sops apps/smart-home/frigate/base/secret.sops.yaml
 # Sauvegarde automatique + rechiffrement
 ```
 
 Ou via le helper :
 
 ```bash
-./scripts/sops-edit.sh homelab/apps/frigate/base/secret.sops.yaml
+./scripts/sops-edit.sh apps/smart-home/frigate/base/secret.sops.yaml
 ```
 
 ### Vérifier le contenu déchiffré
@@ -84,7 +84,7 @@ sops -d homelab/config/tailscale/oauth.sops.yaml
 ### Valider un overlay Kustomize
 
 ```bash
-kubectl kustomize homelab/apps/frigate --enable-helm
+kubectl kustomize apps/smart-home/frigate --enable-alpha-plugins
 ```
 
 > `kubectl kustomize` affiche les valeurs chiffrées sans KSOPS local — normal. ArgoCD déchiffre via KSOPS au sync.
@@ -94,7 +94,7 @@ kubectl kustomize homelab/apps/frigate --enable-helm
 | Fichier | Secret K8s | Namespace | Clés |
 |---------|-----------|-----------|------|
 | `homelab/config/tailscale/oauth.sops.yaml` | `operator-oauth` | tailscale | `client_id`, `client_secret` |
-| `homelab/apps/frigate/base/secret.sops.yaml` | `creds` | frigate | `FRIGATE_RTSP_USER`, `FRIGATE_RTSP_PASSWORD` |
+| `apps/smart-home/frigate/base/secret.sops.yaml` | `creds` | frigate | `FRIGATE_RTSP_USER`, `FRIGATE_RTSP_PASSWORD` |
 | `homelab/apps/vaultwarden/base/secret.sops.yaml` | `vaultwarden-secret` | vaultwarden | `ADMIN_TOKEN` |
 | `homelab/apps/factorio/base/secret.sops.yaml` | `factorio-secret` | factorio | variables `.env` Factorio |
 | `apps/smart-home/homepage/resources/secret.sops.yaml` | `homepage` | smart-home | token SA |

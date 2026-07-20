@@ -115,6 +115,7 @@ spec:
 
 - [x] Créer l'Application racine (app-of-apps) — `platform/argocd/root-app.yaml`
 - [x] Migrer **homepage** → namespace `smart-home` — `argocd-apps/smart-home/homepage.yaml`
+- [x] Migrer **frigate** phase 1 GitOps — `apps/smart-home/frigate`, namespace runtime `frigate` — `argocd-apps/smart-home/frigate.yaml`
 - [ ] Créer les Applications pour les autres apps (smart-home, infra restante, etc.)
 
 ### Étape 5 — Gestion des versions d'images

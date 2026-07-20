@@ -9,6 +9,9 @@ commonAnnotations:
 
 namespace: frigate
 
+generators:
+- ./secret-generator.yaml
+
 resources:
 - ./ns.yaml
 - ./deploy.yaml
@@ -16,7 +19,6 @@ resources:
 - ./ing.yaml
 - ./pvc.yaml
 - ./storageclass.yaml
-- secret.sops.yaml
 
 configMapGenerator:
 - name: config
