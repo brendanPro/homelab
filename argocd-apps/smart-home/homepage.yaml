@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: git@github.com:brendanPro/homelab.git
     targetRevision: main
-    path: homelab/apps/homepage
+    path: apps/smart-home/homepage
   destination:
     server: https://kubernetes.default.svc
     namespace: smart-home

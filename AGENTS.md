@@ -55,7 +55,7 @@ homelab/
 │   ├── playbooks/
 │   └── roles/
 ├── apps/
-│   ├── smart-home/               ← homeassistant, mosquitto, zigbee2mqtt, frigate
+│   ├── smart-home/               ← homepage, homeassistant, mosquitto, zigbee2mqtt, frigate
 │   └── infra/                    ← vaultwarden
 ├── platform/
 │   ├── argocd/
@@ -187,7 +187,7 @@ spec:
   source:
     repoURL: git@github.com:brendanPro/homelab.git
     targetRevision: main
-    path: homelab/apps/homepage
+    path: apps/smart-home/homepage
   destination:
     server: https://kubernetes.default.svc
     namespace: smart-home
@@ -267,7 +267,7 @@ kubectl create secret generic argocd-age-key \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-ArgoCD déchiffre les `*.sops.yaml` via le plugin **KSOPS** (repo-server patché dans `platform/argocd/base/repo-server-ksops-patch.yaml`) si `argocd-age-key` est présent. Les apps Kustomize référencent les secrets via un générateur `kind: ksops` (voir `homelab/apps/homepage/resources/secret-generator.yaml`).
+ArgoCD déchiffre les `*.sops.yaml` via le plugin **KSOPS** (repo-server patché dans `platform/argocd/base/repo-server-ksops-patch.yaml`) si `argocd-age-key` est présent. Les apps Kustomize référencent les secrets via un générateur `kind: ksops` (voir `apps/smart-home/homepage/resources/secret-generator.yaml`).
 
 ### Secrets bootstrap (hors Git — chicken-and-egg ArgoCD)
 
@@ -294,7 +294,7 @@ Voir le template : `platform/argocd/base/repo-secret.yaml.example`
 | frigate | `homelab/apps/frigate/base/secret.sops.yaml` |
 | vaultwarden | `homelab/apps/vaultwarden/base/secret.sops.yaml` |
 | factorio | `homelab/apps/factorio/base/secret.sops.yaml` |
-| homepage | `homelab/apps/homepage/resources/secret.sops.yaml` |
+| homepage | `apps/smart-home/homepage/resources/secret.sops.yaml` |
 | qbittorrent | `homelab/apps/media/base/qbittorrent/config.sops.yaml` |
 
 Les variables sensibles Frigate dans `assets/config.yaml` utilisent `{FRIGATE_RTSP_USER}` / `{FRIGATE_RTSP_PASSWORD}` — injectées via le secret `creds`.

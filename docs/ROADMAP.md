@@ -39,8 +39,8 @@ homelab/
 │       ├── common/               ← hosts, kernel modules, sysctl, containerd
 │       └── kubernetes/           ← kubelet, kubeadm, kubectl v1.33
 ├── apps/
-│   ├── smart-home/               ← homeassistant, mosquitto, zigbee2mqtt, frigate
-│   └── infra/                    ← homepage, vaultwarden
+│   ├── smart-home/               ← homepage, homeassistant, mosquitto, zigbee2mqtt, frigate
+│   └── infra/                    ← vaultwarden
 ├── platform/
 │   ├── argocd/
 │   ├── tailscale/

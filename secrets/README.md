@@ -97,7 +97,7 @@ kubectl kustomize homelab/apps/frigate --enable-helm
 | `homelab/apps/frigate/base/secret.sops.yaml` | `creds` | frigate | `FRIGATE_RTSP_USER`, `FRIGATE_RTSP_PASSWORD` |
 | `homelab/apps/vaultwarden/base/secret.sops.yaml` | `vaultwarden-secret` | vaultwarden | `ADMIN_TOKEN` |
 | `homelab/apps/factorio/base/secret.sops.yaml` | `factorio-secret` | factorio | variables `.env` Factorio |
-| `homelab/apps/homepage/resources/secret.sops.yaml` | `homepage` | smart-home | token SA |
+| `apps/smart-home/homepage/resources/secret.sops.yaml` | `homepage` | smart-home | token SA |
 | `homelab/apps/media/base/qbittorrent/config.sops.yaml` | `qbittorrent-config` | qbittorrent | config WebUI |
 
 ## Rotation de clé age
