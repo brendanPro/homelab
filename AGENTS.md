@@ -174,7 +174,7 @@ spec:
 
 App-of-apps : `platform/argocd/root-app.yaml` → `argocd-apps/` → une Application par app.
 
-Première app migrée : **homepage** (`argocd-apps/smart-home/homepage.yaml`). **Frigate** phase 1 GitOps : même pattern, namespace runtime `frigate` conservé (`argocd-apps/smart-home/frigate.yaml`).
+Première app migrée : **homepage** (`argocd-apps/smart-home/homepage.yaml`). **Frigate** et **mosquitto** phase 1 GitOps : même pattern, namespace runtime conservé (`frigate`, `mosquitto`).
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
