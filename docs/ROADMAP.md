@@ -1,177 +1,152 @@
 # Homelab GitOps Roadmap
 
+> Dernière mise à jour : 2026-07-21
+
 ## Vue d'ensemble
 
-L'objectif est de passer d'un cluster géré manuellement (`kustomize apply`) à un workflow GitOps complet où un push git déclenche automatiquement le déploiement via ArgoCD. En parallèle, remplacer le script `install.sh` par des playbooks Ansible pour pouvoir reconstruire le cluster depuis zéro en une commande.
+Passer d'un cluster géré manuellement (`kustomize apply`) à un workflow GitOps complet : **push git → ArgoCD sync → déploiement automatique**.
 
 ```
-git push → ArgoCD sync → déploiement automatique sur le cluster
-ansible-playbook → provisioning RPI depuis zéro
+git push → ArgoCD sync → cluster
 ```
+
+En parallèle (plus tard) : Ansible pour reprovisionner les RPI depuis zéro.
+
+---
+
+## État actuel du cluster
+
+### Smart-home — GitOps phase 1 ✅
+
+Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
+
+| App | Manifests | Namespace runtime | Phase 2 namespace |
+|-----|-----------|-------------------|-------------------|
+| homepage | `apps/smart-home/homepage` | `smart-home` | N/A (déjà cible) |
+| mosquitto | `apps/smart-home/mosquitto` | `smart-home` | ✅ fait (+ alias legacy) |
+| frigate | `apps/smart-home/frigate` | `frigate` | ⏳ à faire |
+| zigbee2mqtt | `apps/smart-home/zigbee2mqtt` | `zigbee2mqtt` | ⏳ à faire |
+| homeassistant | `apps/smart-home/homeassistant` | `homeassistant` | ⏳ à faire (en dernier) |
+
+### Infra — en attente
+
+| App | Statut |
+|-----|--------|
+| vaultwarden | Legacy `homelab/apps/vaultwarden` — **ne pas toucher pour le moment** |
+
+### Platform
+
+| Composant | Manifests | GitOps |
+|-----------|-----------|--------|
+| ArgoCD | `platform/argocd/` | ✅ root app-of-apps |
+| Tailscale operator | `homelab/config/tailscale/` | ❌ à migrer |
+| OpenEBS | `homelab/apps/openebs/` | ❌ à migrer |
+| Calico | (install manuel / ansible) | ❌ à documenter |
 
 ---
 
 ## Architecture cible des namespaces
 
-Regroupement fonctionnel (au lieu d'un namespace par service) :
-
-| Namespace    | Services                                          |
-|--------------|---------------------------------------------------|
-| `smart-home` | homeassistant, mosquitto, zigbee2mqtt, frigate, homepage |
-| `infra`      | vaultwarden                                       |
-| `platform`   | argocd, tailscale, openebs, calico (inchangé)     |
-
-Apps supprimées du repo (hors scope) : `gitea`, `n8n`, `velero`, `adguard`, `media`, `factorio`, `minecraft`, `nginx-ts`, `storage` (Ceph/Rook)
+| Namespace | Services |
+|-----------|----------|
+| `smart-home` | homepage, mosquitto, zigbee2mqtt, frigate, homeassistant |
+| `infra` | vaultwarden |
+| `platform` | argocd, tailscale, openebs |
 
 ---
 
-## Structure cible du repo
+## Priorités — ordre de travail
 
-```
-homelab/
-├── ansible/
-│   ├── inventory.yaml
-│   ├── playbooks/
-│   │   ├── setup-all.yaml        ← point d'entrée unique
-│   │   ├── init-master.yaml      ← kubeadm init + calico + argocd
-│   │   └── join-workers.yaml     ← kubeadm join automatique
-│   └── roles/
-│       ├── common/               ← hosts, kernel modules, sysctl, containerd
-│       └── kubernetes/           ← kubelet, kubeadm, kubectl v1.33
-├── apps/
-│   ├── smart-home/               ← homepage, homeassistant, mosquitto, zigbee2mqtt, frigate
-│   └── infra/                    ← vaultwarden
-├── platform/
-│   ├── argocd/
-│   ├── tailscale/
-│   ├── openebs/
-│   └── calico/
-└── docs/
-    └── ROADMAP.md
-```
+### 🔜 Prochaine session : phase 2 namespaces
+
+Plan détaillé : [`docs/runbooks/phase2-ns-migrations-plan.md`](runbooks/phase2-ns-migrations-plan.md)
+
+Ordre (du moins au plus critique) :
+
+1. **zigbee2mqtt** → `smart-home` (dongle USB rpinode2, backup PVC)
+2. **frigate** → `smart-home` (gros PVC 700 Go, backup PVC)
+3. **homeassistant** → `smart-home` (**backup PVC obligatoire**, en dernier)
+
+Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
+
+### 📋 Backlog documenté
+
+| Sujet | Doc | Statut |
+|-------|-----|--------|
+| Cleanup repo legacy | [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md) | À planifier |
+| Pin images (HA, vaultwarden) | ci-dessous § versions | En attente volontaire |
+| Renovate Bot | ci-dessous § versions | **On hold** |
+| Ansible provisioning | ci-dessous § Ansible | **On hold** |
+| Vaultwarden GitOps | — | **On hold** |
 
 ---
 
-## TODO
+## TODO détaillé
 
-### Étape 0 — Docs et AGENTS.md
+### Étape 0 — Docs
 
-- [x] Créer `docs/ROADMAP.md` (ce fichier)
-- [ ] Réécrire `AGENTS.md` avec l'architecture actuelle, les règles IaC homelab et les avertissements critiques sur les volumes
+- [x] Créer `docs/ROADMAP.md`
+- [x] Runbook mosquitto phase 2
+- [x] Plan phase 2 namespaces smart-home
+- [x] Doc cleanup repo (`docs/REPO-CLEANUP.md`)
+- [ ] Réécrire `AGENTS.md` (architecture actuelle)
 
-### Étape 1 — Déployer ArgoCD
+### Étape 1 — ArgoCD
 
-- [ ] Créer namespace `argocd`
-- [x] Créer `platform/argocd/` avec Kustomize remote base (v3.3.2), namespace `platform`
-- [ ] Créer l'ingress Tailscale pour l'UI ArgoCD
-- [ ] Connecter ArgoCD au repo `git@github.com:brendanPro/homelab.git`
+- [x] `platform/argocd/` + root app-of-apps
+- [x] Repo connecté (`homelab-repo` secret)
+- [ ] Ingress Tailscale UI ArgoCD (vérifier si déjà OK en prod)
 
-### Étape 2 — Ansible : provisioning des RPI
+### Étape 2 — GitOps smart-home (phase 1)
 
-Remplacer `homelab/install.sh` (non idempotent, manuel nœud par nœud) par des playbooks Ansible.
-Utile principalement en cas de reconstruction complète du cluster.
+- [x] homepage
+- [x] frigate
+- [x] mosquitto
+- [x] zigbee2mqtt
+- [x] homeassistant
 
-Commande unique pour reconstruire le cluster depuis zéro :
-```bash
-ansible-playbook -i ansible/inventory.yaml ansible/playbooks/setup-all.yaml
-```
+### Étape 3 — GitOps smart-home (phase 2 — migration namespace)
 
-- [ ] Créer `ansible/inventory.yaml` avec rpimaster, rpinode1, rpinode2
-- [ ] Créer le rôle `common` (hosts, kernel modules, sysctl, containerd)
-- [ ] Créer le rôle `kubernetes` (kubelet, kubeadm, kubectl v1.33)
-- [ ] Créer `playbooks/setup-all.yaml`
-- [ ] Créer `playbooks/init-master.yaml` (kubeadm init + Calico)
-- [ ] Créer `playbooks/join-workers.yaml` (kubeadm join automatique)
+- [x] mosquitto → `smart-home` + alias legacy `mosquitto.mosquitto`
+- [ ] zigbee2mqtt → `smart-home`
+- [ ] frigate → `smart-home`
+- [ ] homeassistant → `smart-home` (**backup PVC avant**)
 
-### Étape 3 — Restructurer le repo
+> **CRITIQUE** — backup obligatoire avant migration PVC :
+> - `homeassistant/homeassistant-config` — toute la config domotique
+> - `vaultwarden/vaultwarden-pvc` — tous les mots de passe (hors scope actuel)
 
-- [ ] Créer la nouvelle arborescence `apps/` et `platform/`
-- [ ] Supprimer les dossiers hors scope (`gitea`, `adguard`, `media`, `factorio`, `minecraft`, `nginx-ts`, `storage`)
-- [x] Supprimer `n8n` et `velero`
-- [x] Déplacer `infra/argoCD/` → `platform/argocd/`
-- [ ] Déplacer configs tailscale/openebs/calico → `platform/`
+### Étape 4 — Restructurer le repo
 
-### Étape 4 — Pattern ArgoCD App-of-Apps
+Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 
-Créer une `Application` ArgoCD par namespace fonctionnel. Exemple :
+- [x] Arborescence `apps/smart-home/` opérationnelle
+- [x] `platform/argocd/`
+- [x] Supprimer `n8n`, `velero`
+- [ ] Supprimer `homelab/apps/` legacy (media, factorio, adguard, storage, etc.)
+- [ ] Migrer tailscale / openebs → `platform/`
+- [ ] Activer `argocd-apps/infra/` (vaultwarden — quand décidé)
 
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: smart-home
-  namespace: argocd
-spec:
-  source:
-    repoURL: git@github.com:brendanPro/homelab.git
-    path: apps/smart-home
-  destination:
-    namespace: smart-home
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-```
-
-- [x] Créer l'Application racine (app-of-apps) — `platform/argocd/root-app.yaml`
-- [x] Migrer **homepage** → namespace `smart-home` — `argocd-apps/smart-home/homepage.yaml`
-- [x] Migrer **frigate** phase 1 GitOps — `apps/smart-home/frigate`, namespace runtime `frigate` — `argocd-apps/smart-home/frigate.yaml`
-- [x] Migrer **mosquitto** phase 1 GitOps — `apps/smart-home/mosquitto`, namespace runtime `mosquitto` — `argocd-apps/smart-home/mosquitto.yaml`
-- [x] **mosquitto** phase 2 — namespace `smart-home` + alias legacy — `docs/runbooks/mosquitto-phase2-ns-migration.md`
-- [x] Migrer **zigbee2mqtt** phase 1 GitOps — `apps/smart-home/zigbee2mqtt`, namespace runtime `zigbee2mqtt` — `argocd-apps/smart-home/zigbee2mqtt.yaml`
-- [ ] Migrer **homeassistant** phase 1 GitOps — `apps/smart-home/homeassistant`, namespace runtime `homeassistant` — `argocd-apps/smart-home/homeassistant.yaml` (prêt, pas pushé)
-- [ ] Créer les Applications pour les autres apps (smart-home, infra restante, etc.)
-
-### Étape 5 — Gestion des versions d'images
-
-Objectif : ne plus jamais avoir de drift entre le cluster et le code, et être notifié automatiquement des mises à jour disponibles.
-
-**Règle par catégorie :**
+### Étape 5 — Versions d'images **(on hold)**
 
 | Catégorie | Apps | Stratégie |
 |-----------|------|-----------|
-| Données critiques | vaultwarden, homeassistant | Tag précis `x.y.z`, PR manuelle review obligatoire |
-| Apps avec état | zigbee2mqtt, frigate, mosquitto | Tag précis `x.y.z`, mise à jour contrôlée |
-| Apps stateless | homepage | `latest` acceptable |
+| Données critiques | vaultwarden, homeassistant | Tag précis, PR manuelle |
+| Apps avec état | zigbee2mqtt, frigate, mosquitto | Tag précis |
+| Stateless | homepage | `latest` OK |
 
-- [ ] Passer `homeassistant` de `latest` à un tag précis (récupérer la version en cours sur le cluster)
-- [ ] Passer `vaultwarden` de `latest` à un tag précis
-- [ ] Ajouter `renovate.json` à la racine du repo pour ouvrir des PRs automatiques sur les nouvelles versions d'images
+- [ ] Pin `homeassistant` (volontairement reporté)
+- [ ] Pin `vaultwarden`
+- [ ] Renovate Bot sur GitHub
 
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
-  "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
-  }
-}
-```
+### Étape 6 — Ansible **(on hold)**
 
-- [ ] Activer Renovate Bot sur le repo GitHub (`github.com/brendanPro/homelab`)
+- [ ] Inventory + rôles + playbooks (reconstruction cluster from scratch)
 
-### Étape 6 — Migration des namespaces
+---
 
-> **CRITIQUE — BACKUP OBLIGATOIRE avant toute migration de vaultwarden et homeassistant.**
-> Ces deux PVCs ne doivent JAMAIS être supprimés sans backup vérifié :
-> - `vaultwarden/vaultwarden-pvc` — tous les mots de passe
-> - `homeassistant/homeassistant-config` — toute la configuration domotique
+## Historique
 
-Ordre de migration (du moins au plus critique) :
-
-- [ ] `homepage` → namespace `infra` (stateless, zéro downtime)
-- [ ] `vaultwarden` → namespace `infra` (**backup PVC avant**)
-- [ ] `mosquitto` → namespace `smart-home`
-- [ ] `zigbee2mqtt` → namespace `smart-home`
-- [ ] `frigate` → namespace `smart-home`
-- [ ] `homeassistant` → namespace `smart-home` (**backup PVC avant**, en dernier)
-
-Pour chaque migration :
-1. Mettre à jour `namespace:` dans les YAML de l'app
-2. Push git → ArgoCD déploie dans le nouveau namespace
-3. Vérifier que tout fonctionne
-4. Supprimer l'ancien namespace
-
-### ~~Étape 6 — Mise à jour des versions~~ ✅
-
-- [x] `zigbee2mqtt` : `2.0.0` → `2.8.0`
+- [x] `zigbee2mqtt` image : `2.0.0` → `2.8.0`
+- [x] Mosquitto phase 2 exécutée 2026-07-21
+- [x] Phase 1 GitOps complète smart-home 2026-07-21
