@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: zigbee2mqtt
+  namespace: platform
+spec:
+  revisionHistoryLimit: 4
+  project: default
+  source:
+    repoURL: git@github.com:brendanPro/homelab.git
+    targetRevision: main
+    path: apps/smart-home/zigbee2mqtt
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: zigbee2mqtt
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
