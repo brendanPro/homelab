@@ -1,3 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 namespace: homeassistant
 commonLabels:
   app.kubernetes.io/name: homeassistant
@@ -11,4 +14,3 @@ resources:
 - ./resources/ing.yaml
 - ./resources/pvc.yaml
 - ./resources/storageclass.yaml
-

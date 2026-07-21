@@ -119,6 +119,7 @@ spec:
 - [x] Migrer **mosquitto** phase 1 GitOps — `apps/smart-home/mosquitto`, namespace runtime `mosquitto` — `argocd-apps/smart-home/mosquitto.yaml`
 - [x] **mosquitto** phase 2 — namespace `smart-home` + alias legacy — `docs/runbooks/mosquitto-phase2-ns-migration.md`
 - [x] Migrer **zigbee2mqtt** phase 1 GitOps — `apps/smart-home/zigbee2mqtt`, namespace runtime `zigbee2mqtt` — `argocd-apps/smart-home/zigbee2mqtt.yaml`
+- [ ] Migrer **homeassistant** phase 1 GitOps — `apps/smart-home/homeassistant`, namespace runtime `homeassistant` — `argocd-apps/smart-home/homeassistant.yaml` (prêt, pas pushé)
 - [ ] Créer les Applications pour les autres apps (smart-home, infra restante, etc.)
 
 ### Étape 5 — Gestion des versions d'images
