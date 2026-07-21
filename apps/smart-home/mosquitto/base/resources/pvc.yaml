@@ -3,6 +3,8 @@ apiVersion: v1
 metadata:
   name: mosquitto-data
 spec:
+  # Migration phase 2 : rebind PV existant (OpenEBS local, rpinode2)
+  volumeName: pvc-70636937-f37e-4d01-b8d4-3173e015f6ce
   storageClassName: mosquitto
   accessModes:
     - ReadWriteOnce
@@ -15,6 +17,7 @@ apiVersion: v1
 metadata:
   name: mosquitto-log
 spec:
+  volumeName: pvc-a7ae9490-b146-4f64-9436-1146196dca64
   storageClassName: mosquitto
   accessModes:
     - ReadWriteOnce

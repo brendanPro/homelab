@@ -174,7 +174,7 @@ spec:
 
 App-of-apps : `platform/argocd/root-app.yaml` → `argocd-apps/` → une Application par app.
 
-Première app migrée : **homepage** (`argocd-apps/smart-home/homepage.yaml`). **Frigate** et **mosquitto** phase 1 GitOps : même pattern, namespace runtime conservé (`frigate`, `mosquitto`).
+Première app migrée : **homepage** (`argocd-apps/smart-home/homepage.yaml`). **Frigate** et **mosquitto** phase 1 GitOps : même pattern, namespace runtime conservé (`frigate`, `mosquitto`). Mosquitto phase 2 (NS `smart-home` + alias legacy) : manifests préparés, runbook `docs/runbooks/mosquitto-phase2-ns-migration.md` — **exécution manuelle PV rebind avant push**.
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1

@@ -1,4 +1,4 @@
-namespace: mosquitto
+namespace: smart-home
 commonLabels:
   app.kubernetes.io/name: mosquitto
 commonAnnotations:
@@ -6,7 +6,6 @@ commonAnnotations:
 
 
 resources:
-- ./resources/ns.yaml
 - ./resources/depoly.yaml
 - ./resources/svc.yaml
 - ./resources/pvc.yaml

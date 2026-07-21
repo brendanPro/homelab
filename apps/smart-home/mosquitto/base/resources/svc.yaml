@@ -5,5 +5,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 1883
+  - name: mqtt
+    port: 1883
+    targetPort: 1883
     nodePort: 31883
+    protocol: TCP
