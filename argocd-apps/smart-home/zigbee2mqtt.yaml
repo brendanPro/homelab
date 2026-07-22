@@ -12,7 +12,7 @@ spec:
     path: apps/smart-home/zigbee2mqtt
   destination:
     server: https://kubernetes.default.svc
-    namespace: zigbee2mqtt
+    namespace: smart-home
   syncPolicy:
     automated:
       selfHeal: true

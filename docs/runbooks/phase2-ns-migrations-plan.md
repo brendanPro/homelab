@@ -134,7 +134,7 @@ Namespace stub `homeassistant` — integrations MQTT/Frigate/z2m utilisent déj�
 | App | Script | Chemin backup nœud |
 |-----|--------|-------------------|
 | mosquitto | `scripts/mosquitto-backup-pvc.sh` | ✅ `/var/backups/homelab/mosquitto-YYYY-MM-DD/` |
-| zigbee2mqtt | `scripts/zigbee2mqtt-backup-pvc.sh` | À créer |
+| zigbee2mqtt | `scripts/zigbee2mqtt-backup-pvc.sh` | ✅ voir runbook phase 2 |
 | frigate | `scripts/frigate-backup-pvc.sh` | À créer (2 PVCs) |
 | homeassistant | `scripts/homeassistant-backup-pvc.sh` | À créer |
 
@@ -155,4 +155,6 @@ Modèle : Job Kubernetes `hostPath` sur le nœud OpenEBS local (comme mosquitto)
 
 ## Prochaine action
 
-**Commencer par zigbee2mqtt** — préparer manifests phase 2 + script backup + runbook dédié (copie adaptée de mosquitto).
+**Commencer par zigbee2mqtt** — runbook : [`zigbee2mqtt-phase2-ns-migration.md`](zigbee2mqtt-phase2-ns-migration.md), backup : `scripts/zigbee2mqtt-backup-pvc.sh`.
+
+Manifests phase 2 git + exécution runbook lors d'une fenêtre maintenance.

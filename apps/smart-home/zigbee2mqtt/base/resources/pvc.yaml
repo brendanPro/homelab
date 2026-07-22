@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: zigbee2mqtt-data
 spec:
+  # Migration phase 2 : rebind PV existant (OpenEBS local, rpinode2)
+  volumeName: pvc-38726ebb-20e4-4041-9bc3-8d3f2be1a307
   storageClassName: z2mqtt
   accessModes:
     - ReadWriteOnce
