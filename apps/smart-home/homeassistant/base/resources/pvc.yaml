@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: homeassistant-config
 spec:
+  volumeName: pvc-6fa70131-cce6-4de6-bf0a-00ba4eff1bc3
   storageClassName: homeassistant-config
   accessModes:
   - ReadWriteOnce

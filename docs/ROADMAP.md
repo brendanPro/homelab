@@ -26,7 +26,7 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 | mosquitto | `apps/smart-home/mosquitto` | `smart-home` | ✅ fait (+ alias legacy) |
 | frigate | `apps/smart-home/frigate` | `smart-home` | ✅ fait (+ alias legacy) |
 | zigbee2mqtt | `apps/smart-home/zigbee2mqtt` | `smart-home` | ✅ fait (+ alias legacy) |
-| homeassistant | `apps/smart-home/homeassistant` | `homeassistant` | ⏳ à faire (en dernier) |
+| homeassistant | `apps/smart-home/homeassistant` | `smart-home` | ✅ fait (+ alias legacy) |
 
 ### Infra — en attente
 
@@ -57,15 +57,11 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 
 ## Priorités — ordre de travail
 
-### 🔜 Prochaine session : phase 2 namespaces
+### ✅ Phase 2 namespaces smart-home — terminée
 
-Plan détaillé : [`docs/runbooks/phase2-ns-migrations-plan.md`](runbooks/phase2-ns-migrations-plan.md)
+Plan : [`docs/runbooks/phase2-ns-migrations-plan.md`](runbooks/phase2-ns-migrations-plan.md)
 
-Ordre restant :
-
-1. **homeassistant** → `smart-home` (**backup PVC obligatoire**, en dernier)
-
-Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
+Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 
 ### 📋 Backlog documenté
 
@@ -86,6 +82,8 @@ Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
 - [x] Créer `docs/ROADMAP.md`
 - [x] Runbook mosquitto phase 2
 - [x] Runbook zigbee2mqtt phase 2
+- [x] Runbook frigate phase 2
+- [x] Runbook homeassistant phase 2
 - [x] Plan phase 2 namespaces smart-home
 - [x] Doc cleanup repo (`docs/REPO-CLEANUP.md`)
 - [ ] Réécrire `AGENTS.md` (architecture actuelle)
@@ -109,11 +107,10 @@ Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
 - [x] mosquitto → `smart-home` + alias legacy `mosquitto.mosquitto`
 - [x] zigbee2mqtt → `smart-home` + alias legacy `zigbee2mqtt.zigbee2mqtt`
 - [x] frigate → `smart-home` + alias legacy `frigate.frigate`
-- [ ] homeassistant → `smart-home` (**backup PVC avant**)
+- [x] homeassistant → `smart-home` + alias legacy `homeassistant.homeassistant`
 
-> **CRITIQUE** — backup obligatoire avant migration PVC :
-> - `homeassistant/homeassistant-config` — toute la config domotique
-> - `vaultwarden/vaultwarden-pvc` — tous les mots de passe (hors scope actuel)
+> **CRITIQUE** — backup obligatoire avant migration PVC (vaultwarden hors scope) :
+> - `vaultwarden/vaultwarden-pvc` — tous les mots de passe
 
 ### Étape 4 — Restructurer le repo
 

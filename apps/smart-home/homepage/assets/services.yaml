@@ -6,7 +6,7 @@
         href: "https://homeassistant.wombat-wahoo.ts.net"
         icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/refs/heads/main/svg/home-assistant.svg
         description: Server de centralisation domotique
-        namespace: homeassistant
+        namespace: smart-home
         app: homeassistant
         showStats: true
     - Vaultwarden:
