@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: frigate-storage
 spec:
+  volumeName: pvc-aeee2766-b65f-4b28-8f38-67d76356b696
   storageClassName: frigate-storage
   accessModes:
   - ReadWriteOnce
@@ -15,6 +16,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: frigate-config
 spec:
+  volumeName: pvc-46a92f8d-414e-4b27-b9fd-5c27e63676cf
   storageClassName: frigate-storage
   accessModes:
   - ReadWriteOnce

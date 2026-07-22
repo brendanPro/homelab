@@ -1,0 +1,32 @@
+# Namespace stub — alias legacy pour homepage widget et clients internes.
+# Le workload réel tourne dans smart-home.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frigate
+  labels:
+    homelab.brendan.dev/role: frigate-legacy-alias
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frigate
+  namespace: frigate
+  labels:
+    homelab.brendan.dev/role: frigate-legacy-alias
+spec:
+  type: ExternalName
+  externalName: frigate.smart-home.svc.cluster.local
+  ports:
+  - name: http
+    port: 5000
+    protocol: TCP
+  - name: http-auth
+    port: 8971
+    protocol: TCP
+  - name: rtmp
+    port: 1935
+    protocol: TCP
+  - name: rtsp
+    port: 8554
+    protocol: TCP

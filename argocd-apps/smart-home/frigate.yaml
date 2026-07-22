@@ -12,7 +12,7 @@ spec:
     path: apps/smart-home/frigate
   destination:
     server: https://kubernetes.default.svc
-    namespace: frigate
+    namespace: smart-home
   syncPolicy:
     automated:
       selfHeal: true

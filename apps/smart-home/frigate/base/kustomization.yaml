@@ -7,13 +7,12 @@ commonLabels:
 commonAnnotations:
   app.kubernetes.io/name: frigate
 
-namespace: frigate
+namespace: smart-home
 
 generators:
 - ./secret-generator.yaml
 
 resources:
-- ./ns.yaml
 - ./deploy.yaml
 - ./svc.yaml
 - ./ing.yaml
