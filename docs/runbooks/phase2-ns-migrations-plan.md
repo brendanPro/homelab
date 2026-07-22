@@ -11,7 +11,7 @@ smart-home/          ← workloads réels
 ├── homepage
 ├── mosquitto        ✅
 ├── zigbee2mqtt      ✅
-├── frigate          ⏳
+├── frigate          ✅
 └── homeassistant    ⏳ (dernier)
 ```
 
@@ -23,8 +23,8 @@ smart-home/          ← workloads réels
 |---|-----|--------|----------|------------|---------------|
 | ✅ | mosquitto | Moyen | ~10 min MQTT | Oui | NodePort 31883, alias legacy |
 | ✅ | zigbee2mqtt | Moyen | ~5 min Zigbee | Oui | `nodeSelector: z2m: usb` sur rpinode2 |
-| 1 | **frigate** | Moyen | ~5 min caméras | Oui | PVC 700 Go, config RTSP |
-| 2 | **homeassistant** | **Critique** | ~10 min domotique | **Obligatoire** | Toute la config + automations |
+| ✅ | frigate | Moyen | ~5 min caméras | Config oui | PVC 700 Go rebind Retain, alias homepage |
+| 1 | **homeassistant** | **Critique** | ~10 min domotique | **Obligatoire** | Toute la config + automations |
 
 ---
 
@@ -128,7 +128,7 @@ Namespace stub `homeassistant` — integrations MQTT/Frigate/z2m utilisent déj�
 |-----|--------|-------------------|
 | mosquitto | `scripts/mosquitto-backup-pvc.sh` | ✅ `/var/backups/homelab/mosquitto-YYYY-MM-DD/` |
 | zigbee2mqtt | `scripts/zigbee2mqtt-backup-pvc.sh` | ✅ voir runbook phase 2 |
-| frigate | `scripts/frigate-backup-pvc.sh` | À créer (2 PVCs) |
+| frigate | `scripts/frigate-backup-pvc.sh` | ✅ config — `/var/backups/homelab/frigate-YYYY-MM-DD/` |
 | homeassistant | `scripts/homeassistant-backup-pvc.sh` | À créer |
 
 Modèle : Job Kubernetes `hostPath` sur le nœud OpenEBS local (comme mosquitto).
@@ -148,4 +148,4 @@ Modèle : Job Kubernetes `hostPath` sur le nœud OpenEBS local (comme mosquitto)
 
 ## Prochaine action
 
-**Frigate** — runbook à créer : `docs/runbooks/frigate-phase2-ns-migration.md`, script backup 2 PVCs.
+**Home Assistant** — runbook à créer : `docs/runbooks/homeassistant-phase2-ns-migration.md` (**backup PVC obligatoire**).

@@ -24,7 +24,7 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 |-----|-----------|-------------------|-------------------|
 | homepage | `apps/smart-home/homepage` | `smart-home` | N/A (déjà cible) |
 | mosquitto | `apps/smart-home/mosquitto` | `smart-home` | ✅ fait (+ alias legacy) |
-| frigate | `apps/smart-home/frigate` | `frigate` | ⏳ à faire |
+| frigate | `apps/smart-home/frigate` | `smart-home` | ✅ fait (+ alias legacy) |
 | zigbee2mqtt | `apps/smart-home/zigbee2mqtt` | `smart-home` | ✅ fait (+ alias legacy) |
 | homeassistant | `apps/smart-home/homeassistant` | `homeassistant` | ⏳ à faire (en dernier) |
 
@@ -63,8 +63,7 @@ Plan détaillé : [`docs/runbooks/phase2-ns-migrations-plan.md`](runbooks/phase2
 
 Ordre restant :
 
-1. **frigate** → `smart-home` (gros PVC 700 Go, backup PVC)
-2. **homeassistant** → `smart-home` (**backup PVC obligatoire**, en dernier)
+1. **homeassistant** → `smart-home` (**backup PVC obligatoire**, en dernier)
 
 Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
 
@@ -109,7 +108,7 @@ Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
 
 - [x] mosquitto → `smart-home` + alias legacy `mosquitto.mosquitto`
 - [x] zigbee2mqtt → `smart-home` + alias legacy `zigbee2mqtt.zigbee2mqtt`
-- [ ] frigate → `smart-home`
+- [x] frigate → `smart-home` + alias legacy `frigate.frigate`
 - [ ] homeassistant → `smart-home` (**backup PVC avant**)
 
 > **CRITIQUE** — backup obligatoire avant migration PVC :
@@ -150,4 +149,5 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 - [x] `zigbee2mqtt` image : `2.0.0` → `2.8.0`
 - [x] Mosquitto phase 2 exécutée 2026-07-21
 - [x] Zigbee2MQTT phase 2 exécutée 2026-07-22
+- [x] Frigate phase 2 exécutée 2026-07-22
 - [x] Phase 1 GitOps complète smart-home 2026-07-21
