@@ -104,7 +104,7 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 
 ### Étape 3 — GitOps smart-home (phase 2 — migration namespace)
 
-- [x] mosquitto → `smart-home` + alias legacy `mosquitto.mosquitto`
+- [x] mosquitto → `smart-home` (alias legacy retiré — configs sur `mosquitto.smart-home`)
 - [x] zigbee2mqtt → `smart-home` + alias legacy `zigbee2mqtt.zigbee2mqtt`
 - [x] frigate → `smart-home` + alias legacy `frigate.frigate`
 - [x] homeassistant → `smart-home` + alias legacy `homeassistant.homeassistant`

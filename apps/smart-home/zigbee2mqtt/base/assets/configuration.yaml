@@ -6,7 +6,7 @@ homeassistant: true
 # MQTT server URL
 mqtt:
     base_topic: zigbee2mqtt
-    server: "mqtt://mosquitto.mosquitto.svc.cluster.local:1883"
+    server: "mqtt://mosquitto.smart-home.svc.cluster.local:1883"
 # Zigbee Adapter path
 serial:
     port: /dev/ttyUSB0

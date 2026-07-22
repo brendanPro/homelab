@@ -1,6 +1,6 @@
 mqtt:
   enabled: True
-  host: mosquitto.mosquitto
+  host: mosquitto.smart-home
 
 go2rtc:
   streams:
