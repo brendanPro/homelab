@@ -1,6 +1,6 @@
 # Cleanup repo — migration `homelab/` → structure cible
 
-> **Statut : documenté, pas exécuté.** À traiter après les migrations namespace phase 2.
+> **Statut : en cours** — phase 1 (suppression apps hors scope) exécutée 2026-07-22.
 
 ## Objectif
 
@@ -42,18 +42,17 @@ Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré)
 
 ## Encore dans `homelab/` — à traiter
 
-### Apps hors scope (suppression directe)
-
-Ces apps ne tournent plus ou ne sont plus maintenues dans le repo :
+### Apps hors scope — supprimées ✅ (2026-07-22)
 
 | Dossier | Action |
 |---------|--------|
-| `homelab/apps/media/` | Supprimer |
-| `homelab/apps/factorio/` | Supprimer |
-| `homelab/apps/minecraft/` | Supprimer |
-| `homelab/apps/adguard/` | Supprimer |
-| `homelab/apps/nginx-ts/` | Supprimer |
-| `homelab/apps/storage/` (Ceph/Rook/sbx) | Supprimer |
+| `homelab/apps/media/` | ✅ supprimé |
+| `homelab/apps/factorio/` | ✅ supprimé |
+| `homelab/apps/minecraft/` | ✅ supprimé |
+| `homelab/apps/adguard/` | ✅ supprimé |
+| `homelab/apps/nginx-ts/` | ✅ supprimé |
+| `homelab/apps/storage/` (Ceph/Rook/sbx) | ✅ supprimé |
+| `homelab/apps/gitea/` (charts vendorisés, non trackés) | ✅ supprimé |
 
 > Vérifier avant suppression qu'aucune Application ArgoCD ne pointe encore vers ces paths.
 
@@ -147,7 +146,8 @@ git rm -r homelab/
 
 ## Critère de done
 
-- [ ] Plus aucun fichier sous `homelab/apps/` (sauf vaultwarden si pas encore migré)
+- [x] Apps hors scope supprimées (media, factorio, minecraft, adguard, nginx-ts, storage, gitea)
+- [ ] Plus aucun fichier sous `homelab/apps/` (reste : **vaultwarden**, **openebs**)
 - [ ] Platform entièrement sous `platform/`
 - [ ] `rg homelab/apps` ne retourne rien (hors historique git)
 - [ ] ROADMAP étape 4 cochée

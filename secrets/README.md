@@ -96,9 +96,7 @@ kubectl kustomize apps/smart-home/frigate --enable-alpha-plugins
 | `homelab/config/tailscale/oauth.sops.yaml` | `operator-oauth` | tailscale | `client_id`, `client_secret` |
 | `apps/smart-home/frigate/base/secret.sops.yaml` | `creds` | frigate | `FRIGATE_RTSP_USER`, `FRIGATE_RTSP_PASSWORD` |
 | `homelab/apps/vaultwarden/base/secret.sops.yaml` | `vaultwarden-secret` | vaultwarden | `ADMIN_TOKEN` |
-| `homelab/apps/factorio/base/secret.sops.yaml` | `factorio-secret` | factorio | variables `.env` Factorio |
 | `apps/smart-home/homepage/resources/secret.sops.yaml` | `homepage` | smart-home | token SA |
-| `homelab/apps/media/base/qbittorrent/config.sops.yaml` | `qbittorrent-config` | qbittorrent | config WebUI |
 
 ## Rotation de clé age
 

@@ -119,7 +119,7 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 - [x] Arborescence `apps/smart-home/` opérationnelle
 - [x] `platform/argocd/`
 - [x] Supprimer `n8n`, `velero`
-- [ ] Supprimer `homelab/apps/` legacy (media, factorio, adguard, storage, etc.)
+- [x] Supprimer `homelab/apps/` legacy hors scope (media, factorio, minecraft, adguard, nginx-ts, storage)
 - [ ] Migrer tailscale / openebs → `platform/`
 - [ ] Activer `argocd-apps/infra/` (vaultwarden — quand décidé)
 
