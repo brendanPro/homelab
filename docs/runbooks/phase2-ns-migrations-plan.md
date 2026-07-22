@@ -10,7 +10,7 @@ Toutes les apps domotique tournent dans le namespace `smart-home`, avec des alia
 smart-home/          ← workloads réels
 ├── homepage
 ├── mosquitto        ✅
-├── zigbee2mqtt      ⏳
+├── zigbee2mqtt      ✅
 ├── frigate          ⏳
 └── homeassistant    ⏳ (dernier)
 ```
@@ -22,9 +22,9 @@ smart-home/          ← workloads réels
 | # | App | Risque | Downtime | Backup PVC | Particularité |
 |---|-----|--------|----------|------------|---------------|
 | ✅ | mosquitto | Moyen | ~10 min MQTT | Oui | NodePort 31883, alias legacy |
-| 1 | **zigbee2mqtt** | Moyen | ~5 min Zigbee | Oui | `nodeSelector: z2m: usb` sur rpinode2 |
-| 2 | **frigate** | Moyen | ~5 min caméras | Oui | PVC 700 Go, config RTSP |
-| 3 | **homeassistant** | **Critique** | ~10 min domotique | **Obligatoire** | Toute la config + automations |
+| ✅ | zigbee2mqtt | Moyen | ~5 min Zigbee | Oui | `nodeSelector: z2m: usb` sur rpinode2 |
+| 1 | **frigate** | Moyen | ~5 min caméras | Oui | PVC 700 Go, config RTSP |
+| 2 | **homeassistant** | **Critique** | ~10 min domotique | **Obligatoire** | Toute la config + automations |
 
 ---
 
@@ -54,30 +54,23 @@ smart-home/          ← workloads réels
 
 ---
 
-## zigbee2mqtt — détails
+## zigbee2mqtt — exécuté 2026-07-22 ✅
 
-### État actuel
+Runbook : [`zigbee2mqtt-phase2-ns-migration.md`](zigbee2mqtt-phase2-ns-migration.md)
 
 | Ressource | Valeur |
 |-----------|--------|
-| Namespace | `zigbee2mqtt` |
-| PVC | `zigbee2mqtt-data` (100 Mi, SC `z2mqtt`) |
-| PV | `pvc-38726ebb-20e4-4041-9bc3-8d3f2be1a307` |
-| Nœud | rpinode2 (dongle USB `/dev/ttyUSB0`) |
-| MQTT | `mosquitto.mosquitto.svc.cluster.local` (alias OK) |
-
-### Alias legacy proposé
-
-Namespace stub `zigbee2mqtt` + Service ExternalName → `zigbee2mqtt.smart-home.svc.cluster.local`
-
-Clients impactés : aucun si HA/frigate continuent via MQTT direct.
+| Namespace runtime | `smart-home` |
+| Alias legacy | `zigbee2mqtt.zigbee2mqtt` → ExternalName |
+| Backup | `/var/backups/homelab/zigbee2mqtt-2026-07-22/` |
+| PV (Retain) | `pvc-38726ebb-20e4-4041-9bc3-8d3f2be1a307` |
 
 ### Vérifications post-migration
 
-- [ ] UI `zigbee2mqtt.wombat-wahoo.ts.net`
-- [ ] Devices Zigbee visibles dans HA
-- [ ] Logs z2m : publish MQTT OK
-- [ ] Pod schedulé sur rpinode2
+- [x] UI `zigbee2mqtt.wombat-wahoo.ts.net`
+- [x] Logs z2m : publish MQTT OK
+- [x] Pod schedulé sur rpinode2
+- [ ] Devices Zigbee visibles dans HA (validation manuelle)
 
 ---
 
@@ -155,6 +148,4 @@ Modèle : Job Kubernetes `hostPath` sur le nœud OpenEBS local (comme mosquitto)
 
 ## Prochaine action
 
-**Commencer par zigbee2mqtt** — runbook : [`zigbee2mqtt-phase2-ns-migration.md`](zigbee2mqtt-phase2-ns-migration.md), backup : `scripts/zigbee2mqtt-backup-pvc.sh`.
-
-Manifests phase 2 git + exécution runbook lors d'une fenêtre maintenance.
+**Frigate** — runbook à créer : `docs/runbooks/frigate-phase2-ns-migration.md`, script backup 2 PVCs.

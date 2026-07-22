@@ -1,6 +1,6 @@
 # Homelab GitOps Roadmap
 
-> Dernière mise à jour : 2026-07-21
+> Dernière mise à jour : 2026-07-22
 
 ## Vue d'ensemble
 
@@ -25,7 +25,7 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 | homepage | `apps/smart-home/homepage` | `smart-home` | N/A (déjà cible) |
 | mosquitto | `apps/smart-home/mosquitto` | `smart-home` | ✅ fait (+ alias legacy) |
 | frigate | `apps/smart-home/frigate` | `frigate` | ⏳ à faire |
-| zigbee2mqtt | `apps/smart-home/zigbee2mqtt` | `zigbee2mqtt` | ⏳ à faire |
+| zigbee2mqtt | `apps/smart-home/zigbee2mqtt` | `smart-home` | ✅ fait (+ alias legacy) |
 | homeassistant | `apps/smart-home/homeassistant` | `homeassistant` | ⏳ à faire (en dernier) |
 
 ### Infra — en attente
@@ -61,11 +61,10 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 
 Plan détaillé : [`docs/runbooks/phase2-ns-migrations-plan.md`](runbooks/phase2-ns-migrations-plan.md)
 
-Ordre (du moins au plus critique) :
+Ordre restant :
 
-1. **zigbee2mqtt** → `smart-home` (dongle USB rpinode2, backup PVC)
-2. **frigate** → `smart-home` (gros PVC 700 Go, backup PVC)
-3. **homeassistant** → `smart-home` (**backup PVC obligatoire**, en dernier)
+1. **frigate** → `smart-home` (gros PVC 700 Go, backup PVC)
+2. **homeassistant** → `smart-home` (**backup PVC obligatoire**, en dernier)
 
 Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
 
@@ -87,6 +86,7 @@ Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
 
 - [x] Créer `docs/ROADMAP.md`
 - [x] Runbook mosquitto phase 2
+- [x] Runbook zigbee2mqtt phase 2
 - [x] Plan phase 2 namespaces smart-home
 - [x] Doc cleanup repo (`docs/REPO-CLEANUP.md`)
 - [ ] Réécrire `AGENTS.md` (architecture actuelle)
@@ -108,7 +108,7 @@ Modèle : runbook mosquitto (`docs/runbooks/mosquitto-phase2-ns-migration.md`).
 ### Étape 3 — GitOps smart-home (phase 2 — migration namespace)
 
 - [x] mosquitto → `smart-home` + alias legacy `mosquitto.mosquitto`
-- [ ] zigbee2mqtt → `smart-home`
+- [x] zigbee2mqtt → `smart-home` + alias legacy `zigbee2mqtt.zigbee2mqtt`
 - [ ] frigate → `smart-home`
 - [ ] homeassistant → `smart-home` (**backup PVC avant**)
 
@@ -149,4 +149,5 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 
 - [x] `zigbee2mqtt` image : `2.0.0` → `2.8.0`
 - [x] Mosquitto phase 2 exécutée 2026-07-21
+- [x] Zigbee2MQTT phase 2 exécutée 2026-07-22
 - [x] Phase 1 GitOps complète smart-home 2026-07-21
