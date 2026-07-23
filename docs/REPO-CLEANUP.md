@@ -60,9 +60,9 @@ Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré)
 
 | Ancien | Cible | Notes |
 |--------|-------|-------|
-| `homelab/config/tailscale/` | `platform/tailscale/` | Operator Helm via kustomize |
-| `homelab/apps/openebs/` | `platform/openebs/` | Storage cluster-wide |
-| Calico | `platform/calico/` | Manifests ou doc Ansible-only |
+| `homelab/config/tailscale/` | `platform/tailscale/` | ✅ |
+| `homelab/apps/openebs/` | `platform/openebs/` | ✅ |
+| Calico | `platform/calico/` | ✅ |
 
 ### Infra — on hold
 
@@ -147,7 +147,7 @@ git rm -r homelab/
 ## Critère de done
 
 - [x] Apps hors scope supprimées (media, factorio, minecraft, adguard, nginx-ts, storage, gitea)
-- [ ] Plus aucun fichier sous `homelab/apps/` (reste : **openebs**)
-- [ ] Platform entièrement sous `platform/`
+- [x] Platform manifests sous `platform/` (tailscale, openebs, calico, argocd)
+- [ ] Plus aucun fichier sous `homelab/apps/`
 - [ ] `rg homelab/apps` ne retourne rien (hors historique git)
 - [ ] ROADMAP étape 4 cochée

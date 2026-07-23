@@ -39,9 +39,9 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 | Composant | Manifests | GitOps |
 |-----------|-----------|--------|
 | ArgoCD | `platform/argocd/` | ✅ root app-of-apps |
-| Tailscale operator | `homelab/config/tailscale/` | ❌ à migrer |
-| OpenEBS | `homelab/apps/openebs/` | ❌ à migrer |
-| Calico | (install manuel / ansible) | ❌ à documenter |
+| Tailscale operator | `platform/tailscale/` | ✅ repo (hors ArgoCD) |
+| OpenEBS | `platform/openebs/` | ✅ repo (hors ArgoCD) |
+| Calico | `platform/calico/` | ✅ repo (hors ArgoCD) |
 
 ---
 
@@ -123,7 +123,7 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 - [x] `platform/argocd/`
 - [x] Supprimer `n8n`, `velero`
 - [x] Supprimer `homelab/apps/` legacy hors scope (media, factorio, minecraft, adguard, nginx-ts, storage)
-- [ ] Migrer tailscale / openebs → `platform/`
+- [x] Migrer tailscale / openebs / calico → `platform/` (git only, hors ArgoCD)
 - [x] Activer `argocd-apps/infra/` (vaultwarden phase 1)
 
 ### Étape 5 — Versions d'images **(on hold)**

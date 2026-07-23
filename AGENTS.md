@@ -290,7 +290,7 @@ Voir le template : `platform/argocd/base/repo-secret.yaml.example`
 
 | App | Fichier |
 |-----|---------|
-| tailscale | `homelab/config/tailscale/oauth.sops.yaml` |
+| tailscale | `platform/tailscale/oauth.sops.yaml` |
 | frigate | `apps/smart-home/frigate/base/secret.sops.yaml` |
 | vaultwarden | `apps/infra/vaultwarden/base/secret.sops.yaml` |
 | homepage | `apps/smart-home/homepage/resources/secret.sops.yaml` |
