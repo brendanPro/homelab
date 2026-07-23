@@ -63,6 +63,7 @@ Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré)
 | `homelab/config/tailscale/` | `platform/tailscale/` | ✅ |
 | `homelab/apps/openebs/` | `platform/openebs/` | ✅ |
 | Calico | `platform/calico/` | ✅ |
+| Metrics-server | `platform/metrics-server/` | ✅ |
 
 ### Infra — on hold
 

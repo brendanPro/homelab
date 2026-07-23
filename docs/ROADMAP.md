@@ -42,6 +42,7 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 | Tailscale operator | `platform/tailscale/` | ✅ repo (hors ArgoCD) |
 | OpenEBS | `platform/openebs/` | ✅ repo (hors ArgoCD) |
 | Calico | `platform/calico/` | ✅ repo (hors ArgoCD) |
+| Metrics-server | `platform/metrics-server/` | ✅ repo (hors ArgoCD) |
 
 ---
 

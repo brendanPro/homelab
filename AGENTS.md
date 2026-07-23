@@ -61,7 +61,8 @@ homelab/
 │   ├── argocd/
 │   ├── tailscale/
 │   ├── openebs/
-│   └── calico/
+│   ├── calico/
+│   └── metrics-server/
 └── docs/
     └── ROADMAP.md
 ```
