@@ -22,3 +22,7 @@ spec:
     protocol: TCP
     targetPort: rtsp
   type: ClusterIP
+  selector:
+    app.kubernetes.io/name: frigate
+    app.kubernetes.io/instance: frigate
+    app.kubernetes.io/version: 0.14.0
