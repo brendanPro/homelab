@@ -150,4 +150,5 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 - [x] Mosquitto phase 2 exécutée 2026-07-21
 - [x] Zigbee2MQTT phase 2 exécutée 2026-07-22
 - [x] Frigate phase 2 exécutée 2026-07-22
+- [x] Vaultwarden phase 2 exécutée 2026-07-23
 - [x] Phase 1 GitOps complète smart-home 2026-07-21
