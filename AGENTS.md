@@ -62,7 +62,8 @@ homelab/
 │   ├── tailscale/
 │   ├── openebs/
 │   ├── calico/
-│   └── metrics-server/
+│   ├── metrics-server/
+│   └── logs/
 └── docs/
     └── ROADMAP.md
 ```

@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: log-cleanup
-  namespace: kube-system
 spec:
   schedule: "0 2 * * *"  # Run daily at 2 AM
   concurrencyPolicy: Forbid

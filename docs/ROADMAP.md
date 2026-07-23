@@ -43,6 +43,7 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 | OpenEBS | `platform/openebs/` | ✅ repo (hors ArgoCD) |
 | Calico | `platform/calico/` | ✅ repo (hors ArgoCD) |
 | Metrics-server | `platform/metrics-server/` | ✅ repo (hors ArgoCD) |
+| Logs (logrotate) | `platform/logs/` | ✅ repo (hors ArgoCD) |
 
 ---
 

@@ -64,6 +64,7 @@ Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré)
 | `homelab/apps/openebs/` | `platform/openebs/` | ✅ |
 | Calico | `platform/calico/` | ✅ |
 | Metrics-server | `platform/metrics-server/` | ✅ |
+| Logs (logrotate) | `platform/logs/` | ✅ |
 
 ### Infra — on hold
 
@@ -76,7 +77,6 @@ Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré)
 | Fichier | Action |
 |---------|--------|
 | `homelab/install.sh` | Remplacer par Ansible (on hold) — supprimer quand playbooks prêts |
-| `homelab/config/logs/` | Évaluer : migrer vers `platform/` ou supprimer si obsolète |
 
 ---
 

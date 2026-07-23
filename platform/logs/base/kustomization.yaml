@@ -1,0 +1,16 @@
+namespace: kube-system
+
+labels:
+- pairs:
+    app.kubernetes.io/name: logs
+    app.kubernetes.io/component: logrotate
+  includeSelectors: false
+
+resources:
+- ./logrotate-configmap.yaml
+- ./logrotate-daemonset.yaml
+- ./log-cleanup-cronjob.yaml
+
+images:
+- name: alpine
+  newTag: "3.18"

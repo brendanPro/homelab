@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: logrotate
-  namespace: kube-system
   labels:
     app: logrotate
 spec:
