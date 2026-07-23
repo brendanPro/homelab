@@ -1,4 +1,15 @@
-#/bin/bash
+#!/bin/bash
+#
+# LEGACY — ne pas exécuter tel quel sur un RPi homelab.
+# Référence historique du bootstrap manuel du cluster K8s.
+# Voir ansible/docs/K8S-PROVISIONING.md pour la migration Ansible.
+#
+# Problèmes connus :
+#   - Repo Docker en amd64 (RPi = arm64)
+#   - Kubernetes v1.30 (cluster prod = v1.33)
+#   - IPs workers possiblement obsolètes (vérifier kubectl get nodes)
+#   - Modules rbd/ceph : legacy Ceph/Rook retiré du repo
+#
 
 ## edit the /etc/cloud/templates/hosts.debian.tmpl to match
 sudo sh -c 'echo "192.168.8.144   rpimaster rpimaster" >> /etc/cloud/templates/hosts.debian.tmpl'

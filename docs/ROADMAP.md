@@ -69,7 +69,8 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 
 | Sujet | Doc | Statut |
 |-------|-----|--------|
-| Cleanup repo legacy | [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md) | À planifier |
+| Cleanup repo legacy | [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md) | ✅ `homelab/` supprimé |
+| Ansible cluster K8s | [`ansible/docs/K8S-PROVISIONING.md`](../ansible/docs/K8S-PROVISIONING.md) | Plan documenté — implémentation on hold |
 | Pin images (HA, vaultwarden) | ci-dessous § versions | En attente volontaire |
 | Renovate Bot | ci-dessous § versions | **On hold** |
 | Ansible provisioning | ci-dessous § Ansible | **On hold** |
@@ -117,7 +118,7 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 
 > **CRITIQUE** — backup obligatoire avant migration PVC vaultwarden (phase 2 ✅ 2026-07-23).
 
-### Étape 4 — Restructurer le repo
+### Étape 4 — Restructurer le repo ✅
 
 Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 
@@ -125,7 +126,8 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 - [x] `platform/argocd/`
 - [x] Supprimer `n8n`, `velero`
 - [x] Supprimer `homelab/apps/` legacy hors scope (media, factorio, minecraft, adguard, nginx-ts, storage)
-- [x] Migrer tailscale / openebs / calico → `platform/` (git only, hors ArgoCD)
+- [x] Migrer tailscale / openebs / calico / metrics-server / logs → `platform/`
+- [x] Supprimer dossier legacy `homelab/` (install → `ansible/legacy/`)
 - [x] Activer `argocd-apps/infra/` (vaultwarden phase 1)
 
 ### Étape 5 — Versions d'images **(on hold)**
@@ -142,7 +144,13 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 
 ### Étape 6 — Ansible **(on hold)**
 
-- [ ] Inventory + rôles + playbooks (reconstruction cluster from scratch)
+Guide : [`ansible/docs/K8S-PROVISIONING.md`](../ansible/docs/K8S-PROVISIONING.md) — script legacy dans `ansible/legacy/install-k8s-bootstrap.sh`.
+
+- [ ] Inventory homelab (rpimaster, rpinode1, rpinode2)
+- [ ] Rôles common / containerd / kubernetes (arm64, v1.33)
+- [ ] Playbooks kubeadm init + join
+- [ ] Playbook platform post-install
+- [x] Playbook OpenClaw (`setup-rpiclaw.yml`)
 
 ---
 

@@ -11,7 +11,7 @@ Infrastructure as Code pour mon homelab Kubernetes sur cluster Raspberry Pi 5, g
 | Tailscale | Accès distant sécurisé |
 | OpenEBS | Stockage persistant (local PV) |
 | Calico | Réseau (CNI) |
-| Ansible | Provisioning des nœuds depuis zéro |
+| Ansible | Provisioning — cluster K8s (à venir), OpenClaw (playbook prêt) |
 
 ## Cluster
 
@@ -30,7 +30,7 @@ Infrastructure as Code pour mon homelab Kubernetes sur cluster Raspberry Pi 5, g
 
 ```
 homelab/
-├── ansible/        ← provisioning des RPI
+├── ansible/        ← provisioning (legacy bootstrap + guide K8S-PROVISIONING.md)
 ├── apps/           ← applications (smart-home, infra)
 ├── platform/       ← argocd, tailscale, openebs, calico
 └── docs/
@@ -41,3 +41,5 @@ homelab/
 
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — roadmap et todos
 - [`AGENTS.md`](AGENTS.md) — guide pour les agents IA
+- [`ansible/README.md`](ansible/README.md) — Ansible (OpenClaw + plan cluster K8s)
+- [`ansible/docs/K8S-PROVISIONING.md`](ansible/docs/K8S-PROVISIONING.md) — guide migration bootstrap → playbooks

@@ -1,6 +1,6 @@
 # Cleanup repo — migration `homelab/` → structure cible
 
-> **Statut : en cours** — phase 1 (suppression apps hors scope) exécutée 2026-07-22.
+> **Statut : quasi terminé** — dossier legacy `homelab/` supprimé (2026-07-23).
 
 ## Objectif
 
@@ -23,7 +23,7 @@ homelab/
 └── secrets/
 ```
 
-Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré).
+Supprimer le dossier legacy `homelab/` — **fait** (2026-07-23). Bootstrap K8s archivé dans `ansible/legacy/`.
 
 ---
 
@@ -72,11 +72,11 @@ Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré)
 |---------|--------|
 | `apps/infra/vaultwarden/` | ✅ phase 2 GitOps (`infra`) |
 
-### Autres fichiers `homelab/`
+### Autres fichiers `homelab/` — migrés ✅
 
-| Fichier | Action |
-|---------|--------|
-| `homelab/install.sh` | Remplacer par Ansible (on hold) — supprimer quand playbooks prêts |
+| Ancien | Nouveau | Notes |
+|--------|---------|-------|
+| `homelab/install.sh` | `ansible/legacy/install-k8s-bootstrap.sh` | Legacy — voir `ansible/docs/K8S-PROVISIONING.md` |
 
 ---
 
@@ -148,7 +148,7 @@ git rm -r homelab/
 ## Critère de done
 
 - [x] Apps hors scope supprimées (media, factorio, minecraft, adguard, nginx-ts, storage, gitea)
-- [x] Platform manifests sous `platform/` (tailscale, openebs, calico, argocd)
-- [ ] Plus aucun fichier sous `homelab/apps/`
-- [ ] `rg homelab/apps` ne retourne rien (hors historique git)
-- [ ] ROADMAP étape 4 cochée
+- [x] Platform manifests sous `platform/` (tailscale, openebs, calico, argocd, metrics-server, logs)
+- [x] Dossier legacy `homelab/` supprimé — bootstrap dans `ansible/legacy/`
+- [ ] `rg homelab/` ne retourne rien hors docs historiques / backups paths
+- [x] ROADMAP étape 4 cochée

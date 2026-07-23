@@ -37,7 +37,7 @@ Homelab Kubernetes tournant sur un cluster Raspberry Pi 5, géré en GitOps via 
 - **Storage** : OpenEBS (local PV)
 - **Réseau externe** : Tailscale (ingress via tailscale operator)
 - **GitOps** : ArgoCD
-- **Provisioning** : Ansible (en cours de mise en place, voir `ansible/`)
+- **Provisioning** : Ansible — cluster K8s à ansibleiser ([`ansible/docs/K8S-PROVISIONING.md`](ansible/docs/K8S-PROVISIONING.md)) ; playbook OpenClaw opérationnel
 
 > ⚠️ **Outillage** : Ce repo utilise **kustomize uniquement** pour la gestion des manifests.
 > Ne jamais installer ni utiliser `helm` directement. Les `helmCharts` dans les `kustomization.yaml`
@@ -50,10 +50,11 @@ Homelab Kubernetes tournant sur un cluster Raspberry Pi 5, géré en GitOps via 
 
 ```
 homelab/
-├── ansible/                      ← provisioning des RPI depuis zéro
-│   ├── inventory.yaml
-│   ├── playbooks/
-│   └── roles/
+├── ansible/                      ← provisioning (voir ansible/README.md)
+│   ├── docs/K8S-PROVISIONING.md  ← plan migration cluster K8s
+│   ├── legacy/install-k8s-bootstrap.sh
+│   ├── inventory.yml
+│   └── playbooks/
 ├── apps/
 │   ├── smart-home/               ← homepage, homeassistant, mosquitto, zigbee2mqtt, frigate
 │   └── infra/                    ← vaultwarden
