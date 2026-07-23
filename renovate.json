@@ -8,9 +8,7 @@
       "apps/.+/base/.+/deploy\\.yaml$",
       "apps/.+/base/.+/deployment\\.yaml$",
       "apps/.+/resources/.+\\.yaml$",
-      "homelab/apps/.+/deploy\\.yaml$",
-      "homelab/apps/.+/deployment\\.yaml$",
-      "homelab/apps/.+/resources/.+\\.yaml$"
+      "platform/.+/base/.+/deploy\\.yaml$"
     ]
   },
   "kustomize": {
