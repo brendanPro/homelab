@@ -6,22 +6,25 @@
   "kubernetes": {
     "fileMatch": [
       "apps/.+/base/.+/deploy\\.yaml$",
-      "apps/.+/base/.+/deployment\\.yaml$",
-      "apps/.+/resources/.+\\.yaml$",
-      "platform/.+/base/.+/deploy\\.yaml$"
+      "apps/.+/base/.+/depoly\\.yaml$",
+      "apps/.+/base/deploy\\.yaml$",
+      "apps/.+/resources/deploy\\.yaml$",
+      "apps/.+/resources/depoly\\.yaml$",
+      "apps/ai/.+\\.(yaml|yml)$",
+      "platform/.+/base/.+\\.yaml$"
     ]
   },
   "kustomize": {
-    "fileMatch": [
-      "(^|/)kustomization\\.yaml$"
-    ]
+    "fileMatch": ["(^|/)kustomization\\.yaml$"]
   },
   "packageRules": [
     {
-      "description": "Apps critiques — mise à jour manuelle, PR uniquement",
+      "description": "Apps avec données / impact prod — PR manuelle obligatoire",
+      "matchManagers": ["kustomize", "kubernetes"],
       "matchPackageNames": [
         "ghcr.io/home-assistant/home-assistant",
         "docker.io/vaultwarden/server",
+        "vaultwarden/server",
         "koenkk/zigbee2mqtt",
         "ghcr.io/blakeblackshear/frigate",
         "eclipse-mosquitto"
@@ -30,22 +33,39 @@
       "labels": ["renovate", "critical"]
     },
     {
-      "description": "Tailscale operator Helm chart — PR uniquement, review manuelle",
-      "matchPackageNames": ["tailscale-operator"],
-      "matchManagers": ["kustomize"],
+      "description": "Apps stateless ou AI — PR sans auto-merge",
+      "matchManagers": ["kustomize", "kubernetes"],
+      "matchPackageNames": [
+        "ghcr.io/gethomepage/homepage",
+        "ghcr.io/open-webui/open-webui",
+        "ollama/ollama"
+      ],
       "automerge": false,
-      "labels": ["renovate", "infra", "tailscale"]
+      "labels": ["renovate"]
     },
     {
-      "description": "Infra réseau et stockage — ignorer (trop sensible, mise à jour manuelle)",
+      "description": "Platform — PR manuelle",
+      "matchManagers": ["kustomize", "kubernetes"],
+      "matchPackageNames": [
+        "tailscale-operator",
+        "registry.k8s.io/metrics-server/metrics-server",
+        "alpine"
+      ],
+      "automerge": false,
+      "labels": ["renovate", "infra"]
+    },
+    {
+      "description": "CNI Calico — ignorer (mise à jour manuelle cluster-wide)",
       "matchPackageNames": [
         "docker.io/calico/cni",
         "docker.io/calico/node",
-        "docker.io/calico/kube-controllers",
-        "registry.k8s.io/metrics-server/metrics-server",
-        "quay.io/ceph/ceph",
-        "rook/ceph"
+        "docker.io/calico/kube-controllers"
       ],
+      "enabled": false
+    },
+    {
+      "description": "Legacy Ceph/Rook — ignoré",
+      "matchPackageNames": ["quay.io/ceph/ceph", "rook/ceph"],
       "enabled": false
     }
   ]

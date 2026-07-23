@@ -17,3 +17,7 @@ resources:
 - sc.yaml
 - svc.yaml
 - config.yaml
+
+images:
+- name: docker.io/vaultwarden/server
+  newTag: "1.36.0"

@@ -13,3 +13,7 @@ resources:
 - ./resources/ing.yaml
 - ./resources/pvc.yaml
 - ./resources/storageclass.yaml
+
+images:
+- name: ghcr.io/home-assistant/home-assistant
+  newTag: "2026.7.3"

@@ -28,3 +28,7 @@ resources:
 - ./resources/sa.yaml
 - ./resources/cr.yaml
 - ./resources/crb.yaml
+
+images:
+- name: ghcr.io/gethomepage/homepage
+  newTag: v1.13.2

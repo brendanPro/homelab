@@ -42,4 +42,4 @@ homelab/
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — roadmap et todos
 - [`AGENTS.md`](AGENTS.md) — guide pour les agents IA
 - [`ansible/README.md`](ansible/README.md) — Ansible (OpenClaw + plan cluster K8s)
-- [`ansible/docs/K8S-PROVISIONING.md`](ansible/docs/K8S-PROVISIONING.md) — guide migration bootstrap → playbooks
+- [`docs/RENOVATE.md`](docs/RENOVATE.md) — versions épinglées et Renovate

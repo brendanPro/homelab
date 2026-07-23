@@ -12,7 +12,8 @@ spec:
       enableServiceLinks: true
       containers:
       - name: homepage
-        image: ghcr.io/gethomepage/homepage:latest
+        image: ghcr.io/gethomepage/homepage
+        imagePullPolicy: IfNotPresent
         env:
         - name: HOMEPAGE_ALLOWED_HOSTS
           value: homepage.wombat-wahoo.ts.net

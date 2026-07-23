@@ -79,17 +79,17 @@ homelab/
 
 | App | Image | PVC critique |
 |-----|-------|-------------|
-| homeassistant | `ghcr.io/home-assistant/home-assistant:latest` | `homeassistant-config` ⚠️ |
-| mosquitto | `eclipse-mosquitto:latest` | `mosquitto-data`, `mosquitto-log` |
+| homeassistant | `ghcr.io/home-assistant/home-assistant:2026.7.3` | `homeassistant-config` ⚠️ |
+| mosquitto | `eclipse-mosquitto:2.1.2-alpine` | `mosquitto-data`, `mosquitto-log` |
 | zigbee2mqtt | `koenkk/zigbee2mqtt:2.8.0` | `zigbee2mqtt-data` |
 | frigate | `ghcr.io/blakeblackshear/frigate:0.14.1` | `frigate-config`, `frigate-storage` |
-| homepage | `ghcr.io/gethomepage/homepage:latest` | — |
+| homepage | `ghcr.io/gethomepage/homepage:v1.13.2` | — |
 
 ### Namespace `infra`
 
 | App | Image | PVC critique |
 |-----|-------|-------------|
-| vaultwarden | `docker.io/vaultwarden/server:latest` | `vaultwarden-pvc` ⚠️ |
+| vaultwarden | `docker.io/vaultwarden/server:1.36.0` | `vaultwarden-pvc` ⚠️ |
 
 ### Namespace `platform`
 
@@ -227,7 +227,8 @@ Ces règles tiennent compte des contraintes d'une infra maison sur RPI :
 ### À faire
 
 - `reclaimPolicy: Retain` sur **tous** les PVCs — ne jamais utiliser `Delete`
-- Versionner les images applicatives (pas de `latest` pour les apps critiques comme frigate ou zigbee2mqtt)
+- Versionner les images applicatives via `images:` dans les `kustomization.yaml` — pas de `latest`
+- Mises à jour : [Renovate](docs/RENOVATE.md) (PR hebdomadaires, merge manuel)
 - Stocker les configs applicatives dans des ConfigMaps (dossier `assets/`)
 - Référencer les secrets via `secretKeyRef` — jamais de valeur en dur dans les YAML commités
 - Chiffrer les secrets avec **SOPS + age** (`*.sops.yaml`) — voir `secrets/README.md`
@@ -239,7 +240,7 @@ Ces règles tiennent compte des contraintes d'une infra maison sur RPI :
 - Ne pas utiliser `hostPath` pour le stockage persistant
 - Ne pas modifier les PVCs critiques (vaultwarden, homeassistant) sans backup
 - Ne pas appliquer manuellement sur les namespaces gérés par ArgoCD
-- Ne pas utiliser `latest` pour les images dont la version a un impact sur les données (zigbee2mqtt, frigate)
+- Ne pas utiliser `latest` pour les images applicatives (impact données ou comportement)
 
 ### Resource limits
 

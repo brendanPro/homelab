@@ -18,7 +18,8 @@ spec:
         envFrom:
         - configMapRef:
             name: vaultwarden-config
-        image: docker.io/vaultwarden/server:latest 
+        image: docker.io/vaultwarden/server
+        imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10
           httpGet:

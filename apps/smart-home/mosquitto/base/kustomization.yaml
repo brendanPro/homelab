@@ -11,3 +11,7 @@ resources:
 - ./resources/pvc.yaml
 - ./resources/storageclass.yaml
 - ./resources/cm.yaml
+
+images:
+- name: eclipse-mosquitto
+  newTag: 2.1.2-alpine

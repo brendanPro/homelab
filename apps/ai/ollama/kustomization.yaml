@@ -5,3 +5,7 @@ resources:
   - pvc.yaml
   - statefulset.yaml
   - service.yaml
+
+images:
+- name: ollama/ollama
+  newTag: "0.9.0"

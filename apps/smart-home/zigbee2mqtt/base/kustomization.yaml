@@ -18,3 +18,7 @@ resources:
 - ./resources/ing.yaml
 - ./resources/storageclass.yaml
 - ./resources/pvc.yaml
+
+images:
+- name: koenkk/zigbee2mqtt
+  newTag: 2.8.0

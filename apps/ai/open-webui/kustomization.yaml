@@ -6,3 +6,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+
+images:
+- name: ghcr.io/open-webui/open-webui
+  newTag: "0.6.5"

@@ -71,8 +71,7 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 |-------|-----|--------|
 | Cleanup repo legacy | [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md) | ✅ `homelab/` supprimé |
 | Ansible cluster K8s | [`ansible/docs/K8S-PROVISIONING.md`](../ansible/docs/K8S-PROVISIONING.md) | Plan documenté — implémentation on hold |
-| Pin images (HA, vaultwarden) | ci-dessous § versions | En attente volontaire |
-| Renovate Bot | ci-dessous § versions | **On hold** |
+| Pin images + Renovate | [`docs/RENOVATE.md`](RENOVATE.md) | ✅ tags épinglés — activer app GitHub Renovate |
 | Ansible provisioning | ci-dessous § Ansible | **On hold** |
 | Vaultwarden GitOps | — | ✅ phase 1 |
 
@@ -130,17 +129,19 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 - [x] Supprimer dossier legacy `homelab/` (install → `ansible/legacy/`)
 - [x] Activer `argocd-apps/infra/` (vaultwarden phase 1)
 
-### Étape 5 — Versions d'images **(on hold)**
+### Étape 5 — Versions d'images ✅
+
+Voir [`docs/RENOVATE.md`](RENOVATE.md).
 
 | Catégorie | Apps | Stratégie |
 |-----------|------|-----------|
-| Données critiques | vaultwarden, homeassistant | Tag précis, PR manuelle |
+| Données critiques | vaultwarden, homeassistant | Tag précis, PR Renovate manuelle |
 | Apps avec état | zigbee2mqtt, frigate, mosquitto | Tag précis |
-| Stateless | homepage | `latest` OK |
+| Stateless | homepage | Tag précis |
 
-- [ ] Pin `homeassistant` (volontairement reporté)
-- [ ] Pin `vaultwarden`
-- [ ] Renovate Bot sur GitHub
+- [x] Pin toutes les apps GitOps (tags alignés cluster juillet 2026)
+- [x] `renovate.json` + doc Renovate
+- [ ] Installer l’app GitHub [Mend Renovate](https://github.com/apps/renovate) sur le repo
 
 ### Étape 6 — Ansible **(on hold)**
 

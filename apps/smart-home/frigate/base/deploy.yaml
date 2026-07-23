@@ -14,7 +14,7 @@ spec:
         envFrom: 
         - secretRef:
             name: creds
-        image: ghcr.io/blakeblackshear/frigate:0.14.1
+        image: ghcr.io/blakeblackshear/frigate
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 5

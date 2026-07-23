@@ -11,8 +11,8 @@ spec:
     spec:
       initContainers:
         - name: install-hass-web-proxy-lib
-          image: ghcr.io/home-assistant/home-assistant:latest
-          imagePullPolicy: Always
+          image: ghcr.io/home-assistant/home-assistant
+          imagePullPolicy: IfNotPresent
           command:
             - sh
             - -c
@@ -22,8 +22,8 @@ spec:
               mountPath: /config
       containers:
       - name: home-assistant-app
-        image: ghcr.io/home-assistant/home-assistant:latest
-        imagePullPolicy: Always
+        image: ghcr.io/home-assistant/home-assistant
+        imagePullPolicy: IfNotPresent
         env:
           - name: PYTHONPATH
             value: /config/deps
