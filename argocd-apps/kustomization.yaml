@@ -3,5 +3,3 @@ kind: Kustomization
 resources:
   - smart-home/
   - infra/
-  # Autres apps — activer quand prêtes
-  # - ai/

@@ -27,13 +27,6 @@ Sans l’app GitHub installée, `renovate.json` seul ne fait rien.
 | zigbee2mqtt | `koenkk/zigbee2mqtt` | `2.8.0` | `apps/smart-home/zigbee2mqtt/base/kustomization.yaml` |
 | homepage | `ghcr.io/gethomepage/homepage` | `v1.13.2` | `apps/smart-home/homepage/kustomization.yaml` |
 
-### Hors ArgoCD (`apps/ai/`)
-
-| App | Tag | Fichier |
-|-----|-----|---------|
-| ollama | `0.9.0` | `apps/ai/ollama/kustomization.yaml` |
-| open-webui | `0.6.5` | `apps/ai/open-webui/kustomization.yaml` |
-
 ### Platform (apply manuel)
 
 | Composant | Tag | Fichier |
@@ -51,7 +44,7 @@ Sans l’app GitHub installée, `renovate.json` seul ne fait rien.
 |----------|--------------|
 | `renovate` + `critical` | HA, vaultwarden, frigate, zigbee2mqtt, mosquitto — **review + test obligatoires** |
 | `renovate` + `infra` | metrics-server, alpine, tailscale — review manuelle |
-| `renovate` | homepage, AI — review recommandée |
+| `renovate` | homepage — review recommandée |
 
 **Aucun automerge** — tu merges quand tu veux, ArgoCD sync ensuite.
 

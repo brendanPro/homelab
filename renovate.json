@@ -10,7 +10,6 @@
       "apps/.+/base/deploy\\.yaml$",
       "apps/.+/resources/deploy\\.yaml$",
       "apps/.+/resources/depoly\\.yaml$",
-      "apps/ai/.+\\.(yaml|yml)$",
       "platform/.+/base/.+\\.yaml$"
     ]
   },
@@ -33,12 +32,10 @@
       "labels": ["renovate", "critical"]
     },
     {
-      "description": "Apps stateless ou AI — PR sans auto-merge",
+      "description": "Apps stateless — PR sans auto-merge",
       "matchManagers": ["kustomize", "kubernetes"],
       "matchPackageNames": [
-        "ghcr.io/gethomepage/homepage",
-        "ghcr.io/open-webui/open-webui",
-        "ollama/ollama"
+        "ghcr.io/gethomepage/homepage"
       ],
       "automerge": false,
       "labels": ["renovate"]
