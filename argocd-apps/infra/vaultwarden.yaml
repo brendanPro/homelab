@@ -12,7 +12,7 @@ spec:
     path: apps/infra/vaultwarden
   destination:
     server: https://kubernetes.default.svc
-    namespace: vaultwarden
+    namespace: infra
   syncPolicy:
     automated:
       selfHeal: true

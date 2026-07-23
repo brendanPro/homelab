@@ -32,7 +32,7 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 
 | App | Manifests | Namespace runtime | Phase 2 namespace |
 |-----|-----------|-------------------|-------------------|
-| vaultwarden | `apps/infra/vaultwarden` | `vaultwarden` | ⏳ → `infra` |
+| vaultwarden | `apps/infra/vaultwarden` | `infra` | ✅ fait |
 
 ### Platform
 
@@ -104,7 +104,7 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 
 ### Étape 2b — GitOps infra (phase 1)
 
-- [x] vaultwarden (`apps/infra/vaultwarden`, namespace runtime `vaultwarden`)
+- [x] vaultwarden → `infra` (**backup PVC avant**)
 
 ### Étape 3 — GitOps smart-home (phase 2 — migration namespace)
 
@@ -113,8 +113,7 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 - [x] frigate → `smart-home` + alias legacy `frigate.frigate`
 - [x] homeassistant → `smart-home` + alias legacy `homeassistant.homeassistant`
 
-> **CRITIQUE** — backup obligatoire avant migration PVC (vaultwarden hors scope) :
-> - `vaultwarden/vaultwarden-pvc` — tous les mots de passe
+> **CRITIQUE** — backup obligatoire avant migration PVC vaultwarden (phase 2 ✅ 2026-07-23).
 
 ### Étape 4 — Restructurer le repo
 

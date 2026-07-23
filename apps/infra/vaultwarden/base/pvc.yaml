@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: vaultwarden-pvc
 spec:
+  volumeName: pvc-fc24a55b-5a3b-410e-a4b8-f5be7222f862
   storageClassName: vaultwarden
   accessModes:
   - ReadWriteOnce

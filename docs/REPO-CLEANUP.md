@@ -68,7 +68,7 @@ Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré)
 
 | Dossier | Action |
 |---------|--------|
-| `apps/infra/vaultwarden/` | ✅ phase 1 GitOps (namespace runtime `vaultwarden`) |
+| `apps/infra/vaultwarden/` | ✅ phase 2 GitOps (`infra`) |
 
 ### Autres fichiers `homelab/`
 
