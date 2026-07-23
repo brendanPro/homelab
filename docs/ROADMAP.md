@@ -28,11 +28,11 @@ Toutes les apps smart-home sont gérées par ArgoCD (`argocd-apps/smart-home/`).
 | zigbee2mqtt | `apps/smart-home/zigbee2mqtt` | `smart-home` | ✅ fait (+ alias legacy) |
 | homeassistant | `apps/smart-home/homeassistant` | `smart-home` | ✅ fait (+ alias legacy) |
 
-### Infra — en attente
+### Infra — GitOps phase 1
 
-| App | Statut |
-|-----|--------|
-| vaultwarden | Legacy `homelab/apps/vaultwarden` — **ne pas toucher pour le moment** |
+| App | Manifests | Namespace runtime | Phase 2 namespace |
+|-----|-----------|-------------------|-------------------|
+| vaultwarden | `apps/infra/vaultwarden` | `vaultwarden` | ⏳ → `infra` |
 
 ### Platform
 
@@ -71,7 +71,7 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 | Pin images (HA, vaultwarden) | ci-dessous § versions | En attente volontaire |
 | Renovate Bot | ci-dessous § versions | **On hold** |
 | Ansible provisioning | ci-dessous § Ansible | **On hold** |
-| Vaultwarden GitOps | — | **On hold** |
+| Vaultwarden GitOps | — | ✅ phase 1 |
 
 ---
 
@@ -102,6 +102,10 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 - [x] zigbee2mqtt
 - [x] homeassistant
 
+### Étape 2b — GitOps infra (phase 1)
+
+- [x] vaultwarden (`apps/infra/vaultwarden`, namespace runtime `vaultwarden`)
+
 ### Étape 3 — GitOps smart-home (phase 2 — migration namespace)
 
 - [x] mosquitto → `smart-home` (alias legacy retiré — configs sur `mosquitto.smart-home`)
@@ -121,7 +125,7 @@ Voir [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md).
 - [x] Supprimer `n8n`, `velero`
 - [x] Supprimer `homelab/apps/` legacy hors scope (media, factorio, minecraft, adguard, nginx-ts, storage)
 - [ ] Migrer tailscale / openebs → `platform/`
-- [ ] Activer `argocd-apps/infra/` (vaultwarden — quand décidé)
+- [x] Activer `argocd-apps/infra/` (vaultwarden phase 1)
 
 ### Étape 5 — Versions d'images **(on hold)**
 

@@ -68,7 +68,7 @@ Supprimer le dossier legacy `homelab/` (sauf ce qui n'a pas encore été migré)
 
 | Dossier | Action |
 |---------|--------|
-| `homelab/apps/vaultwarden/` | **Ne pas toucher** — migration GitOps + namespace reportée |
+| `apps/infra/vaultwarden/` | ✅ phase 1 GitOps (namespace runtime `vaultwarden`) |
 
 ### Autres fichiers `homelab/`
 
@@ -147,7 +147,7 @@ git rm -r homelab/
 ## Critère de done
 
 - [x] Apps hors scope supprimées (media, factorio, minecraft, adguard, nginx-ts, storage, gitea)
-- [ ] Plus aucun fichier sous `homelab/apps/` (reste : **vaultwarden**, **openebs**)
+- [ ] Plus aucun fichier sous `homelab/apps/` (reste : **openebs**)
 - [ ] Platform entièrement sous `platform/`
 - [ ] `rg homelab/apps` ne retourne rien (hors historique git)
 - [ ] ROADMAP étape 4 cochée

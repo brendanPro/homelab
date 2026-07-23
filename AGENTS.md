@@ -292,7 +292,7 @@ Voir le template : `platform/argocd/base/repo-secret.yaml.example`
 |-----|---------|
 | tailscale | `homelab/config/tailscale/oauth.sops.yaml` |
 | frigate | `apps/smart-home/frigate/base/secret.sops.yaml` |
-| vaultwarden | `homelab/apps/vaultwarden/base/secret.sops.yaml` |
+| vaultwarden | `apps/infra/vaultwarden/base/secret.sops.yaml` |
 | homepage | `apps/smart-home/homepage/resources/secret.sops.yaml` |
 
 Les variables sensibles Frigate dans `assets/config.yaml` utilisent `{FRIGATE_RTSP_USER}` / `{FRIGATE_RTSP_PASSWORD}` — injectées via le secret `creds`.
