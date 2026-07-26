@@ -10,13 +10,21 @@ spec:
   template:
     spec:
       initContainers:
+        # HA image ships a broken pip (Missing pip._vendor.idna.core on 2026.7.3).
+        # Install with a stock Python image into the shared /config/deps volume.
         - name: install-hass-web-proxy-lib
-          image: ghcr.io/home-assistant/home-assistant
+          image: python:3.13-slim
           imagePullPolicy: IfNotPresent
           command:
             - sh
             - -c
-            - python3 -m pip install --no-cache-dir --ignore-requires-python --target /config/deps hass-web-proxy-lib
+            - |
+              set -eu
+              if ls -d /config/deps/hass_web_proxy_lib /config/deps/hass_web_proxy_lib-*.dist-info >/dev/null 2>&1; then
+                echo "hass-web-proxy-lib already present in /config/deps"
+                exit 0
+              fi
+              pip install --no-cache-dir --target /config/deps hass-web-proxy-lib
           volumeMounts:
             - name: ha-config-root
               mountPath: /config
