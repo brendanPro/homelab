@@ -1,6 +1,6 @@
 # Homelab GitOps Roadmap
 
-> Dernière mise à jour : 2026-07-22
+> Dernière mise à jour : 2026-07-26
 
 ## Vue d'ensemble
 
@@ -71,7 +71,7 @@ Runbooks : mosquitto, zigbee2mqtt, frigate, homeassistant (`docs/runbooks/`).
 |-------|-----|--------|
 | Cleanup repo legacy | [`docs/REPO-CLEANUP.md`](REPO-CLEANUP.md) | ✅ `homelab/` supprimé |
 | Ansible cluster K8s | [`ansible/docs/K8S-PROVISIONING.md`](../ansible/docs/K8S-PROVISIONING.md) | Plan documenté — implémentation on hold |
-| Pin images + Renovate | [`docs/RENOVATE.md`](RENOVATE.md) | ✅ tags épinglés — activer app GitHub Renovate |
+| Pin images + Renovate | [`docs/RENOVATE.md`](RENOVATE.md) | ✅ tags épinglés + app Mend Renovate active (PR config #2 mergée) |
 | Ansible provisioning | ci-dessous § Ansible | **On hold** |
 | Vaultwarden GitOps | — | ✅ phase 1 |
 
@@ -141,7 +141,7 @@ Voir [`docs/RENOVATE.md`](RENOVATE.md).
 
 - [x] Pin toutes les apps GitOps (tags alignés cluster juillet 2026)
 - [x] `renovate.json` + doc Renovate
-- [ ] Installer l’app GitHub [Mend Renovate](https://github.com/apps/renovate) sur le repo
+- [x] Installer l’app GitHub [Mend Renovate](https://github.com/apps/renovate) sur le repo (PR config #2 mergée 2026-07-24)
 
 ### Étape 6 — Ansible **(on hold)**
 
