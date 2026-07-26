@@ -13,6 +13,13 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: proteus-system
+  # CRDs drift under ServerSideApply (managedFields / status) — cosmetic OutOfSync
+  ignoreDifferences:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      jqPathExpressions:
+        - .metadata
+        - .status
   syncPolicy:
     automated:
       prune: true
