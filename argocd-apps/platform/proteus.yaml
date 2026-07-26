@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: proteus
+  namespace: platform
+spec:
+  revisionHistoryLimit: 3
+  project: default
+  source:
+    repoURL: git@github.com:brendanPro/homelab.git
+    targetRevision: experiment/proteus
+    path: platform/proteus
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: proteus-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
