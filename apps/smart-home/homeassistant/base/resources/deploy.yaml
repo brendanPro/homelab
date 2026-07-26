@@ -32,9 +32,21 @@ spec:
       - name: home-assistant-app
         image: ghcr.io/home-assistant/home-assistant
         imagePullPolicy: IfNotPresent
+        # Bypass s6/bashio entrypoint: image 2026.7.3 ships bashio without core.sh,
+        # so /run/service/home-assistant/run never reaches python.
+        command:
+          - python3
+          - -m
+          - homeassistant
+          - --config
+          - /config
         env:
           - name: PYTHONPATH
             value: /config/deps
+          - name: LD_PRELOAD
+            value: /usr/local/lib/libjemalloc.so.2
+          - name: MALLOC_CONF
+            value: background_thread:true,metadata_thp:auto,dirty_decay_ms:20000,muzzy_decay_ms:20000
         securityContext:
           privileged: null
         ports:
@@ -62,7 +74,7 @@ spec:
           tcpSocket:
             port: 8123
           initialDelaySeconds: 0
-          failureThreshold: 30
+          failureThreshold: 60
           timeoutSeconds: 1
           periodSeconds: 5
         volumeMounts:
