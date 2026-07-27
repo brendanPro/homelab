@@ -13,4 +13,4 @@ resources:
 
 images:
 - name: alpine
-  newTag: "3.18"
+  newTag: "3.24"
