@@ -2,6 +2,10 @@ mqtt:
   enabled: True
   host: mosquitto.smart-home
 
+# Required since 0.16 (detect disabled by default without this).
+detect:
+  enabled: true
+
 go2rtc:
   streams:
     front:
@@ -13,14 +17,20 @@ go2rtc:
     front2_sub:
       - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@192.168.8.98:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif
 
+# 0.17 tiered retention (was retain.mode=all days=7 + events.retain default=14 mode=motion).
 record:
   enabled: True
-  retain:
+  continuous:
     days: 7
-    mode: all
-  events:
+  motion:
+    days: 7
+  alerts:
     retain:
-      default: 14
+      days: 14
+      mode: motion
+  detections:
+    retain:
+      days: 14
       mode: motion
 
 cameras:
@@ -40,7 +50,7 @@ cameras:
       password: "{FRIGATE_RTSP_PASSWORD}"
     detect:
       enabled: true
-    record: 
+    record:
       enabled: true
     objects:
       track:
@@ -74,7 +84,7 @@ cameras:
       password: "{FRIGATE_RTSP_PASSWORD}"
     detect:
       enabled: true
-    record: 
+    record:
       enabled: true
     objects:
       track:
@@ -92,3 +102,5 @@ cameras:
     review:
       alerts:
         required_zones: privacy
+
+version: "0.17-0"
