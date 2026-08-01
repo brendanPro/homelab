@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: umami
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+      - name: umami
+        image: ghcr.io/umami-software/umami
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: umami-secret
+              key: DATABASE_URL
+        - name: APP_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: umami-secret
+              key: APP_SECRET
+        - name: DISABLE_TELEMETRY
+          value: "1"
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /api/heartbeat
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          failureThreshold: 5
+        readinessProbe:
+          httpGet:
+            path: /api/heartbeat
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+      restartPolicy: Always

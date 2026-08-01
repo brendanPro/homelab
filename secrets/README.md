@@ -96,6 +96,7 @@ kubectl kustomize apps/smart-home/frigate --enable-alpha-plugins
 | `platform/tailscale/oauth.sops.yaml` | `operator-oauth` | tailscale | `client_id`, `client_secret` |
 | `apps/smart-home/frigate/base/secret.sops.yaml` | `creds` | frigate | `FRIGATE_RTSP_USER`, `FRIGATE_RTSP_PASSWORD` |
 | `apps/infra/vaultwarden/base/secret.sops.yaml` | `vaultwarden-secret` | infra | `ADMIN_TOKEN` |
+| `apps/infra/umami/base/secret.sops.yaml` | `umami-secret` | infra | `DATABASE_URL`, `APP_SECRET` |
 | `apps/smart-home/homepage/resources/secret.sops.yaml` | `homepage` | smart-home | token SA |
 
 ## Rotation de clé age
