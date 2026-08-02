@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: homelab
+namespace: infra
 
 labels:
 - pairs:
@@ -12,7 +12,6 @@ generators:
 - ./secret-generator.yaml
 
 resources:
-- ns.yaml
 - sc.yaml
 - pvc-library.yaml
 - pvc-postgres.yaml

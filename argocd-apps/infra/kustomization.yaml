@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - vaultwarden.yaml
   - umami.yaml
+  - immich.yaml

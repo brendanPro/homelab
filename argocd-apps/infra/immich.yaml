@@ -9,10 +9,10 @@ spec:
   source:
     repoURL: git@github.com:brendanPro/homelab.git
     targetRevision: main
-    path: apps/homelab/immich
+    path: apps/infra/immich
   destination:
     server: https://kubernetes.default.svc
-    namespace: homelab
+    namespace: infra
   syncPolicy:
     automated:
       prune: true
