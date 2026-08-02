@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: homelab
+
+labels:
+- pairs:
+    app.kubernetes.io/name: immich
+  includeSelectors: false
+
+generators:
+- ./secret-generator.yaml
+
+resources:
+- ns.yaml
+- sc.yaml
+- pvc-library.yaml
+- pvc-postgres.yaml
+- pvc-model-cache.yaml
+- deploy-server.yaml
+- deploy-ml.yaml
+- deploy-postgres.yaml
+- deploy-redis.yaml
+- svc-server.yaml
+- svc-ml.yaml
+- svc-postgres.yaml
+- svc-redis.yaml
+- ing.yaml
+
+images:
+- name: ghcr.io/immich-app/immich-server
+  newTag: v3.1.0
+- name: ghcr.io/immich-app/immich-machine-learning
+  newTag: v3.1.0
+- name: ghcr.io/immich-app/postgres
+  newTag: 14-vectorchord0.4.3-pgvectors0.2.0
+- name: docker.io/valkey/valkey
+  newTag: "9"

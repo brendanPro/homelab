@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich
+  namespace: platform
+spec:
+  revisionHistoryLimit: 4
+  project: default
+  source:
+    repoURL: git@github.com:brendanPro/homelab.git
+    targetRevision: main
+    path: apps/homelab/immich
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: homelab
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
