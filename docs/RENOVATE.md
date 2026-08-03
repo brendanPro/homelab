@@ -20,21 +20,27 @@ Sans l’app GitHub installée, `renovate.json` seul ne fait rien.
 
 | App | Image | Tag | Fichier |
 |-----|-------|-----|---------|
-| homeassistant | `ghcr.io/home-assistant/home-assistant` | `2026.7.3` | `apps/smart-home/homeassistant/base/kustomization.yaml` |
-| vaultwarden | `docker.io/vaultwarden/server` | `1.36.0` | `apps/infra/vaultwarden/base/kustomization.yaml` |
+| homeassistant | `ghcr.io/home-assistant/home-assistant` | `2026.7.4` | `apps/smart-home/homeassistant/base/kustomization.yaml` |
+| homeassistant (init) | `python` | `3.14-slim` | `apps/smart-home/homeassistant/base/resources/deploy.yaml` |
+| vaultwarden | `docker.io/vaultwarden/server` | `1.37.1` | `apps/infra/vaultwarden/base/kustomization.yaml` |
 | mosquitto | `eclipse-mosquitto` | `2.1.2-alpine` | `apps/smart-home/mosquitto/base/kustomization.yaml` |
-| frigate | `ghcr.io/blakeblackshear/frigate` | `0.14.1` | `apps/smart-home/frigate/base/kustomization.yaml` |
-| zigbee2mqtt | `koenkk/zigbee2mqtt` | `2.8.0` | `apps/smart-home/zigbee2mqtt/base/kustomization.yaml` |
+| frigate | `ghcr.io/blakeblackshear/frigate` | `0.17.2` | `apps/smart-home/frigate/base/kustomization.yaml` |
+| zigbee2mqtt | `koenkk/zigbee2mqtt` | `2.13.0` | `apps/smart-home/zigbee2mqtt/base/kustomization.yaml` |
 | homepage | `ghcr.io/gethomepage/homepage` | `v1.13.2` | `apps/smart-home/homepage/kustomization.yaml` |
+| umami | `ghcr.io/umami-software/umami` | `3.2.0` | `apps/infra/umami/base/kustomization.yaml` |
+| immich | `ghcr.io/immich-app/immich-server` (+ ML, postgres, valkey) | `v3.1.0` | `apps/infra/immich/base/kustomization.yaml` |
 
-### Platform (apply manuel)
+### Platform
 
-| Composant | Tag | Fichier |
-|-----------|-----|---------|
-| metrics-server | `v0.7.1` | `platform/metrics-server/base/kustomization.yaml` |
-| logs (alpine) | `3.18` | `platform/logs/base/kustomization.yaml` |
-| tailscale operator | `1.96.5` | `platform/tailscale/base/kustomization.yaml` |
-| calico | `v3.26.0` | `platform/calico/calico.yaml` — **ignoré par Renovate** |
+| Composant | Tag | Fichier | Renovate |
+|-----------|-----|---------|----------|
+| ArgoCD | `v3.3.2` | `platform/argocd/base/kustomization.yaml` (URL remote) | custom manager regex |
+| KSOPS | `v4.3.3` | `platform/argocd/base/repo-server-ksops-patch.yaml` | kubernetes |
+| metrics-server | `v0.7.1` | `platform/metrics-server/base/kustomization.yaml` | kustomize |
+| logs (alpine) | `3.24` | `platform/logs/base/kustomization.yaml` | kustomize |
+| tailscale operator | `1.98.9` | `platform/tailscale/base/kustomization.yaml` | helmCharts |
+| calico | `v3.26.0` | `platform/calico/calico.yaml` | **ignoré** |
+| OpenEBS | — | install manuelle (pas d’images dans le repo) | **ignoré** |
 
 ---
 
@@ -42,11 +48,11 @@ Sans l’app GitHub installée, `renovate.json` seul ne fait rien.
 
 | Label PR | Comportement |
 |----------|--------------|
-| `renovate` + `critical` | HA, vaultwarden, frigate, zigbee2mqtt, mosquitto — **review + test obligatoires** |
-| `renovate` + `infra` | metrics-server, alpine, tailscale — review manuelle |
-| `renovate` | homepage — review recommandée |
+| `renovate` + `critical` | HA, vaultwarden, frigate, zigbee2mqtt, mosquitto, immich — **review + test obligatoires** |
+| `renovate` + `infra` | metrics-server, alpine, tailscale, ArgoCD, KSOPS — review manuelle |
+| `renovate` | homepage, umami — review recommandée |
 
-**Aucun automerge** — tu merges quand tu veux, ArgoCD sync ensuite.
+**Aucun automerge** — tu merges quand tu veux, ArgoCD sync ensuite (sauf Tailscale / ArgoCD / OpenEBS : apply manuel).
 
 ---
 
@@ -65,8 +71,9 @@ Sans l’app GitHub installée, `renovate.json` seul ne fait rien.
 - `renovate.json` — règles globales
 - Managers **kustomize** (`images:`, `helmCharts.version`)
 - Manager **kubernetes** (`image:` dans les deploy/statefulset)
+- Manager **custom.regex** — version ArgoCD dans l’URL `raw.githubusercontent.com/.../install.yaml`
 
-Calico et Ceph restent exclus (`enabled: false`).
+Calico, Ceph et OpenEBS restent exclus (`enabled: false`).
 
 ---
 

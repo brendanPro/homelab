@@ -8,6 +8,7 @@
       "/apps/.+/base/.+/deploy\\.yaml$/",
       "/apps/.+/base/.+/depoly\\.yaml$/",
       "/apps/.+/base/deploy\\.yaml$/",
+      "/apps/.+/base/deploy-.+\\.yaml$/",
       "/apps/.+/resources/deploy\\.yaml$/",
       "/apps/.+/resources/depoly\\.yaml$/",
       "/platform/.+/base/.+\\.yaml$/"
@@ -18,6 +19,21 @@
       "/(^|/)kustomization\\.yaml$/"
     ]
   },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "ArgoCD install.yaml remote resource version",
+      "managerFilePatterns": [
+        "/platform/argocd/base/kustomization\\.yaml$/"
+      ],
+      "matchStrings": [
+        "https://raw\\.githubusercontent\\.com/argoproj/argo-cd/(?<currentValue>v\\d+\\.\\d+\\.\\d+)/manifests/install\\.yaml"
+      ],
+      "depNameTemplate": "argoproj/argo-cd",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    }
+  ],
   "packageRules": [
     {
       "description": "Apps avec données / impact prod — PR manuelle obligatoire",
@@ -28,7 +44,12 @@
         "vaultwarden/server",
         "koenkk/zigbee2mqtt",
         "ghcr.io/blakeblackshear/frigate",
-        "eclipse-mosquitto"
+        "eclipse-mosquitto",
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning",
+        "ghcr.io/immich-app/postgres",
+        "docker.io/valkey/valkey",
+        "valkey/valkey"
       ],
       "automerge": false,
       "labels": ["renovate", "critical"]
@@ -37,18 +58,21 @@
       "description": "Apps stateless — PR sans auto-merge",
       "matchManagers": ["kustomize", "kubernetes"],
       "matchPackageNames": [
-        "ghcr.io/gethomepage/homepage"
+        "ghcr.io/gethomepage/homepage",
+        "ghcr.io/umami-software/umami"
       ],
       "automerge": false,
       "labels": ["renovate"]
     },
     {
       "description": "Platform — PR manuelle",
-      "matchManagers": ["kustomize", "kubernetes"],
+      "matchManagers": ["kustomize", "kubernetes", "custom.regex"],
       "matchPackageNames": [
         "tailscale-operator",
         "registry.k8s.io/metrics-server/metrics-server",
-        "alpine"
+        "alpine",
+        "argoproj/argo-cd",
+        "viaductoss/ksops"
       ],
       "automerge": false,
       "labels": ["renovate", "infra"]
@@ -65,6 +89,16 @@
     {
       "description": "Legacy Ceph/Rook — ignoré",
       "matchPackageNames": ["quay.io/ceph/ceph", "rook/ceph"],
+      "enabled": false
+    },
+    {
+      "description": "OpenEBS — hors GitOps images (install manuelle)",
+      "matchPackageNames": [
+        "openebs/provisioner-localpv",
+        "openebs/node-disk-manager",
+        "openebs/node-disk-operator",
+        "openebs/node-disk-exporter"
+      ],
       "enabled": false
     }
   ]
