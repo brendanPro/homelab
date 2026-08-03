@@ -13,7 +13,7 @@ spec:
         # HA image ships a broken pip (Missing pip._vendor.idna.core on 2026.7.3).
         # Install with a stock Python image into the shared /config/deps volume.
         - name: install-hass-web-proxy-lib
-          image: python:3.13-slim
+          image: python:3.14-slim
           imagePullPolicy: IfNotPresent
           command:
             - sh
