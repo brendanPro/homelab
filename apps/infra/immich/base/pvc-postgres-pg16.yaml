@@ -1,7 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: immich-postgres
+  name: immich-postgres-pg16
+  labels:
+    app.kubernetes.io/component: postgres
+    homelab.local/postgres-major: "16"
   annotations:
     argocd.argoproj.io/sync-options: Prune=false
 spec:

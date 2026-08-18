@@ -12,6 +12,7 @@ Guide pour les agents IA travaillant sur ce repo. Lire entièrement avant toute 
 |-----|-----------|---------|
 | `vaultwarden-pvc` | `vaultwarden` | Tous les mots de passe — perte = catastrophe |
 | `homeassistant-config` | `homeassistant` | Toute la configuration domotique (automations, devices, historique) |
+| `immich-postgres` / `immich-library` | `infra` | Métadonnées + photos Immich — bump Postgres major = dump/restore (`docs/runbooks/immich-postgres-14-to-16.md`) |
 
 En cas de doute sur une opération touchant ces volumes : **ne pas exécuter, demander confirmation.**
 

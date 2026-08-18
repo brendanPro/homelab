@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Hors ArgoCD : ne pas ajouter ce dossier à apps/infra/immich/kustomization.yaml.
+# Apply manuel pendant la fenêtre de migration uniquement.
+# Runbook : docs/runbooks/immich-postgres-14-to-16.md
+
+namespace: infra
+
+resources:
+- pvc-postgres-pg16.yaml
+- deploy-postgres-pg16.yaml
+- svc-postgres-pg16.yaml
+
+images:
+- name: ghcr.io/immich-app/postgres
+  newTag: 16-vectorchord0.4.3-pgvectors0.2.0

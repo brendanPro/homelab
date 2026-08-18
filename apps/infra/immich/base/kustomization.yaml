@@ -15,6 +15,7 @@ resources:
 - sc.yaml
 - pvc-library.yaml
 - pvc-postgres.yaml
+- pvc-postgres-pg16.yaml
 - pvc-model-cache.yaml
 - deploy-server.yaml
 - deploy-ml.yaml
@@ -32,6 +33,7 @@ images:
 - name: ghcr.io/immich-app/immich-machine-learning
   newTag: v3.1.0
 - name: ghcr.io/immich-app/postgres
-  newTag: 14-vectorchord0.4.3-pgvectors0.2.0
+  # Major bump = dump/restore, never in-place. See docs/runbooks/immich-postgres-14-to-16.md
+  newTag: 16-vectorchord0.4.3-pgvectors0.2.0
 - name: docker.io/valkey/valkey
   newTag: "9"

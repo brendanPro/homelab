@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: immich-postgres
+  name: immich-postgres-pg16
   labels:
-    app.kubernetes.io/component: postgres
+    app.kubernetes.io/component: postgres-pg16
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreDifferences
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/component: postgres
+      app.kubernetes.io/component: postgres-pg16
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: postgres
+        app.kubernetes.io/component: postgres-pg16
     spec:
       nodeSelector:
         kubernetes.io/hostname: rpinode1
