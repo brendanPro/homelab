@@ -14,7 +14,6 @@ generators:
 resources:
 - sc.yaml
 - pvc-library.yaml
-- pvc-postgres.yaml
 - pvc-postgres-pg16.yaml
 - pvc-model-cache.yaml
 - deploy-server.yaml

@@ -179,14 +179,13 @@ Vérifs :
 - `kubectl logs -n infra deploy/immich-server --tail=50` : pas d’erreur DB
 - `kubectl exec -n infra deploy/immich-postgres -- psql -U postgres -d immich -c "SHOW server_version;"`
 
-### 8. Observation puis ménage PG14 (plus tard)
+### 8. Observation puis ménage PG14
 
-Garder le PVC `immich-postgres` **plusieurs jours**.
+Garder le PVC `immich-postgres` (PG14) jusqu’à validation UI — **fait 2026-08-19**.
 
-Ensuite seulement :
-
-1. Retirer `pvc-postgres.yaml` des `resources:` (ArgoCD `prune: true` supprime le **PVC**, le **PV** reste grâce à `Retain`)
-2. Optionnel : archive hostpath sur rpinode1  
+1. Retirer `pvc-postgres.yaml` des `resources:` et supprimer le fichier
+2. `kubectl delete pvc immich-postgres -n infra` (le **PV** reste grâce à `Retain`)
+3. Optionnel : libérer l’espace disque sur rpinode1  
    `/var/openebs/local/pvc-f7cd7aa7-734b-4e4a-a3c2-f087575fa964`
 
 ---
