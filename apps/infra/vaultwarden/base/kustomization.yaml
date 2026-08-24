@@ -20,4 +20,4 @@ resources:
 
 images:
 - name: docker.io/vaultwarden/server
-  newTag: "1.37.1"
+  newTag: "1.37.2"
