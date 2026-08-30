@@ -8,13 +8,12 @@ spec:
       initContainers:
         - name: install-ksops
           image: viaductoss/ksops:v4.5.1
-          command: ["/bin/sh", "-c"]
+          # v4.4+ is distroless (no /bin/sh). v4.5.1 makes kustomize copy opt-in.
+          command: ["/usr/local/bin/ksops"]
           args:
-            - |
-              echo "Installing KSOPS...";
-              cp ksops /custom-tools/;
-              cp kustomize /custom-tools/;
-              echo "Done.";
+            - install
+            - --with-kustomize
+            - /custom-tools
           volumeMounts:
             - name: custom-tools
               mountPath: /custom-tools
