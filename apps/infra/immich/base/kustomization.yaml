@@ -28,9 +28,9 @@ resources:
 
 images:
 - name: ghcr.io/immich-app/immich-server
-  newTag: v3.1.0
+  newTag: v3.2.2
 - name: ghcr.io/immich-app/immich-machine-learning
-  newTag: v3.1.0
+  newTag: v3.2.2
 - name: ghcr.io/immich-app/postgres
   # Major bump = dump/restore, never in-place. See docs/runbooks/immich-postgres-14-to-16.md
   newTag: 16-vectorchord0.4.3-pgvectors0.2.0
