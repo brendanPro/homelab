@@ -31,4 +31,4 @@ resources:
 
 images:
 - name: ghcr.io/gethomepage/homepage
-  newTag: v2.5.0
+  newTag: v2.7.0
