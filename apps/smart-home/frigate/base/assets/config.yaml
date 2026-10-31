@@ -15,7 +15,7 @@ go2rtc:
     front2:
       - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@192.168.8.98:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif
     front2_sub:
-      - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@192.168.8.98:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif
+      - rtsp://{FRIGATE_RTSP_USER}:{FRIGATE_RTSP_PASSWORD}@192.168.8.98:554/cam/realmonitor?channel=1&subtype=1&unicast=true&proto=Onvif
 
 # 0.17 tiered retention (was retain.mode=all days=7 + events.retain default=14 mode=motion).
 record:
@@ -48,8 +48,13 @@ cameras:
       port: 80
       user: "{FRIGATE_RTSP_USER}"
       password: "{FRIGATE_RTSP_PASSWORD}"
+    # Sous-flux réel : 704x576. Sans ces valeurs, le probe au démarrage
+    # a expiré et Frigate est resté sur 1280x720 (image étirée).
     detect:
       enabled: true
+      width: 704
+      height: 576
+      fps: 5
     record:
       enabled: true
     objects:
@@ -57,6 +62,14 @@ cameras:
         - cat
         - dog
         - person
+      filters:
+        person:
+          min_score: 0.65
+          threshold: 0.75
+          min_area: 1500
+          # Applique murale noire, en haut à droite. Le bas de la boîte
+          # doit tomber ici pour être ignoré ; le gravier reste détecté.
+          mask: 0.76,0.08,0.92,0.08,0.92,0.32,0.76,0.32
     zones:
       privacy:
         coordinates: 0.424,0.195,0,0.51,0,1,0.712,1,0.812,0.322
@@ -82,8 +95,13 @@ cameras:
       port: 80
       user: "{FRIGATE_RTSP_USER}"
       password: "{FRIGATE_RTSP_PASSWORD}"
+    # Au dernier démarrage ce sous-flux était encore le flux principal.
+    # Frigate a donc figé la détection en 2688x1520 et étire le 704x576.
     detect:
       enabled: true
+      width: 704
+      height: 576
+      fps: 5
     record:
       enabled: true
     objects:
@@ -91,6 +109,11 @@ cameras:
         - cat
         - dog
         - person
+      filters:
+        person:
+          min_score: 0.65
+          threshold: 0.75
+          min_area: 1500
     zones:
       privacy:
         coordinates: 1,0.462,0.678,0.19,0.302,0.02,0.072,0,0,0,0,0.333,0,1,1,1
