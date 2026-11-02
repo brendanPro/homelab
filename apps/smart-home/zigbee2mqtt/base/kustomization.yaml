@@ -21,4 +21,4 @@ resources:
 
 images:
 - name: koenkk/zigbee2mqtt
-  newTag: 2.14.2
+  newTag: 2.14.3
