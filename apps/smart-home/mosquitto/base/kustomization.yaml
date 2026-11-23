@@ -14,4 +14,4 @@ resources:
 
 images:
 - name: eclipse-mosquitto
-  newTag: 2.1.2-alpine
+  newTag: 2.1.4-alpine
